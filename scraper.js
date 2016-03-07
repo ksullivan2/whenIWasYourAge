@@ -54,21 +54,23 @@ function whatLinksHere(url){
 		.then(function($){
 			var counter = 0;
 
-			$("li a").each(function(){
-	
+			$("#mw-whatlinkshere-list li a").each(function(){
+
 				var title = $(this).attr('title');
-				console.log("title: ", title)
-				if (title && title.slice(0,7) != "List of" && title.indexOf(":") == -1){
+				if (title && title.slice(0,7) != "List of" && title.indexOf(":") == -1 && $(this).text() != "edit"){
+					console.log(title)
 					counter ++;
 				}
 			})
 
-			console.log(counter, "inside")
 			return counter;
 		})
 	})
 }
 
-whatLinksHere("https://en.wikipedia.org/wiki/Mary_Martin")
+var test = whatLinksHere("https://en.wikipedia.org/wiki/Mary_Martin")
+test.then(function(results){
+	console.log(results)
+})
 //scrapePage("https://en.wikipedia.org/wiki/1956")
 
