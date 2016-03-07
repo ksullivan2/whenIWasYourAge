@@ -1,11 +1,15 @@
 var cheerio = require('cheerio');
 var rp = require('request-promise');
+var Promise = require('bluebird');
 
 
 //var monthNames = [January, February, March, April, May, June, July, August, September, October, November, December]
 var monthNamesRE = /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
+var yearRE = /^\d{4}$/;
+var siteRE = /\.org\//
 
-function scrapePage(url){
+//returns yearEvents Arr with promises for scores
+function createYearEvents(url){
 	//rp says "once this is done, do the .then function"
 	return createCheerio(url)
 
@@ -27,10 +31,22 @@ function scrapePage(url){
 				$(this).children("a").each(function(){
 					var linkTitle = $(this).attr("title")
 			
-					if (linkTitle && linkTitle.search(monthNamesRE) === -1){
-						console.log(linkTitle)
-						eventObject.links.push($(this).attr("href"));
+					if (linkTitle && linkTitle.search(monthNamesRE) === -1 && linkTitle.search(yearRE) === -1){
+						// console.log(linkTitle)
+						// console.log(linkTitle.search(yearRE))
+						var href = $(this).attr("href");
+						if(href.search(siteRE) === -1) {
+							href = 'https://en.wikipedia.org' + href;
+							eventObject.links.push(href);
+						} 
+						
 					}
+				})
+				eventObject.score = Promise.reduce(eventObject.links, function(sumScores, link){
+					return whatLinksHere(link)
+					.then(function(linkScore){
+						return sumScores + linkScore;
+					}) 
 				})
 
 				yearEvents.push(eventObject)
@@ -39,9 +55,13 @@ function scrapePage(url){
 		})
 		//console.log(yearEvents);
 		return yearEvents;
-	})
-	
+	})	
 }
+
+
+
+
+
 
 function createCheerio(url){
 	//rp says "once this is done, do the .then function"
@@ -77,11 +97,11 @@ function whatLinksHere(url){
 
 				var title = $(this).attr('title');
 				if (title && title.slice(0,7) != "List of" && title.indexOf(":") == -1 && $(this).text() != "edit"){
-					console.log(title)
+					// console.log(title)
 					counter ++;
 				}
 			})
-
+			console.log('resolving', titleOfPage, counter)
 			return counter;
 		})
 	})
@@ -91,5 +111,16 @@ function whatLinksHere(url){
 /*test.then(function(results){
 	console.log(results)
 })*/
-scrapePage("https://en.wikipedia.org/wiki/1956")
+createYearEvents("https://en.wikipedia.org/wiki/1156").then(function(arrProm){
+	console.log('before all', arrProm)
+	
+
+	return Promise.all(arrProm).then(function(arr){
+		console.log(arr)
+		var sorted = arr.sort(function(a, b){
+			return a.score - b.score;
+		})
+		console.log('after', sorted)
+	})
+})
 
