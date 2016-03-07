@@ -1,6 +1,10 @@
 var cheerio = require('cheerio');
 var rp = require('request-promise');
 
+
+//var monthNames = [January, February, March, April, May, June, July, August, September, October, November, December]
+var monthNamesRE = /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
+
 function scrapePage(url){
 	//rp says "once this is done, do the .then function"
 	return createCheerio(url)
@@ -21,11 +25,15 @@ function scrapePage(url){
 				}
 
 				$(this).children("a").each(function(){
-					eventObject.links.push($(this).attr("href"));
-					console.log($(this).attr("href"))
+					var linkTitle = $(this).attr("title")
+			
+					if (linkTitle && linkTitle.search(monthNamesRE) === -1){
+						console.log(linkTitle)
+						eventObject.links.push($(this).attr("href"));
+					}
 				})
 
-				yearEvents.push()
+				yearEvents.push(eventObject)
 			});
 
 		})
