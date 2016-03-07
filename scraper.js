@@ -12,9 +12,20 @@ function scrapePage(url){
 		var yearEvents = [] 
 
 		var yearEventsObject = $('#mw-content-text').children("ul"); 
-		yearEventsObject.each(function(index, monthUL){
-			$(this).children().each(function (childIndex, entry){
-				yearEvents.push($(this).text());
+		yearEventsObject.each(function(){
+			$(this).children().each(function (){
+				var eventObject ={
+					text: $(this).text(),
+					links: [],
+					score: 0
+				}
+
+				$(this).children("a").each(function(){
+					eventObject.links.push($(this).attr("href"));
+					console.log($(this).attr("href"))
+				})
+
+				yearEvents.push()
 			});
 
 		})
@@ -68,9 +79,9 @@ function whatLinksHere(url){
 	})
 }
 
-var test = whatLinksHere("https://en.wikipedia.org/wiki/Mary_Martin")
-test.then(function(results){
+//var test = whatLinksHere("https://en.wikipedia.org/wiki/Mary_Martin")
+/*test.then(function(results){
 	console.log(results)
-})
-//scrapePage("https://en.wikipedia.org/wiki/1956")
+})*/
+scrapePage("https://en.wikipedia.org/wiki/1956")
 
