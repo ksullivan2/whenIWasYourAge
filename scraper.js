@@ -40,13 +40,35 @@ function createCheerio(url){
 }
 
 
-function whatLinksHere(href){
-	return createCheerio(href)
+function whatLinksHere(url){
+	return createCheerio(url)
 	.then(function($){
 
+
+		var titleOfPage = url.slice(30);
+		
+		var whatLinksHereURL = ("https://en.wikipedia.org/w/index.php?title=Special:WhatLinksHere/" 
+								+ titleOfPage + "&limit=5000");
+
+		return createCheerio(whatLinksHereURL)
+		.then(function($){
+			var counter = 0;
+
+			$("li a").each(function(){
+	
+				var title = $(this).attr('title');
+				console.log("title: ", title)
+				if (title && title.slice(0,7) != "List of" && title.indexOf(":") == -1){
+					counter ++;
+				}
+			})
+
+			console.log(counter, "inside")
+			return counter;
+		})
 	})
 }
 
-
-scrapePage("https://en.wikipedia.org/wiki/1956")
+whatLinksHere("https://en.wikipedia.org/wiki/Mary_Martin")
+//scrapePage("https://en.wikipedia.org/wiki/1956")
 
