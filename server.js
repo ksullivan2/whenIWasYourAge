@@ -15,44 +15,36 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-// app.post('/year/:year', function(req, res){
-//   return scrapeYear(wikiPrefix+req.params.year)
-//   .then(function(eventsArr){
-//     return Promise.all(eventsArr, function(promEventObj){
-//       return promEventObj.then(function(eventObj){
-//         return EventModel.create({
-//           text: eventsArr.text,
-//           year: parseInt(req.params.year, 10),
-//           score: eventsArr.score,
-//           links: eventsArr.links.join(' ')
-//         });
-//       });
-//     });
-//     console.log('got events', eventsArr);
-//   });
-// });
+app.post('/year/:year', function(req, res){
+  return scrapeYear(wikiPrefix+req.params.year)
+  .then(function(eventsArr){
+    return Promise.all(eventsArr, function(promEventObj){
+      return promEventObj.then(function(eventObj){
+        return EventModel.create({
+          text: eventsArr.text,
+          year: parseInt(req.params.year, 10),
+          score: eventsArr.score,
+          links: eventsArr.links.join(' ')
+        });
+      });
+    });
+    console.log('got events', eventsArr);
+  });
+});
 
-app.get('/year/:year', function(req, res){
+app.get('/post/year/:year', function(req, res){
   console.log('matched req to', req.params.year)
   return scrapeYear(wikiPrefix+req.params.year)
   .then(function(eventsArr){
     // console.log('received promise for eventsArr', eventsArr)
-    return Promise.map(eventsArr, function(promEventObj){
-      console.log('promEventObj', promEventObj);
-      // return promEventObj
-      return Promise.resolve(promEventObj).then(function(eventObj){
-        console.log('resolved event, about to create row', eventObj)
-        return EventModel.create({
+    return Promise.map(eventsArr, function(eventObj){
+      console.log('eventObj', eventObj);
+      return EventModel.create({
           text: eventObj.text,
           year: parseInt(req.params.year, 10),
           score: eventObj.score,
           links: eventObj.links.join(' ')
         });
-        // return eventObj
-        }).then(function(event){
-          console.log('created', event);
-          return event;
-      });
     });
   }).then(function(finEventsArr){
       console.log('got events', finEventsArr);
