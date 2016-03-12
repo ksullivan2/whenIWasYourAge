@@ -1,0 +1,81 @@
+
+body div div{
+  border: 1px solid black;
+  position: absolute;
+}
+
+#App {
+  position: relative;
+  width: 833px;
+  height: 544px;
+}
+
+#Fact1 {
+  width: 401px;
+  height: 177px;
+  top: 180px;
+  left: 7px;
+}
+
+#Fact2 {
+  width: 407px;
+  height: 175px;
+  top: 180px;
+  left: 416px;
+}
+
+#Fact3 {
+  width: 402px;
+  height: 179px;
+  top: 359px;
+  left: 7px;
+}
+
+#Fact4 {
+  width: 407px;
+  height: 180px;
+  top: 359px;
+  left: 416px;
+}
+
+#Information {
+  width: 815px;
+  height: 178px;
+  top: 0px;
+  left: 7px;
+}
+
+#Slider {
+  width: 776px;
+  height: 80px;
+  top: 52px;
+  left: 21px;
+}
+
+#BirthYear {
+  width: 101px;
+  height: 49px;
+  top: 24px;
+  left: 8px;
+}
+
+#EndYear {
+  width: 112px;
+  height: 53px;
+  top: 22px;
+  left: 640px;
+}
+
+#Change {
+  width: 91px;
+  height: 36px;
+  top: 3px;
+  left: 686px;
+}
+
+#Name {
+  width: 272px;
+  height: 39px;
+  top: 1px;
+  left: 270px;
+}
