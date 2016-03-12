@@ -1,12 +1,16 @@
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
+<<<<<<< HEAD
 var seq = require('./database').seq;
 var EventModel = require('./database').EventModel;
 var scrapeYear = require('./scraper');
 var testYear = "https://en.wikipedia.org/wiki/1156";
 var wikiPrefix = 'https://en.wikipedia.org/wiki/';
 var Promise = require('bluebird');
+=======
+
+>>>>>>> f86b85466dd30a08356f4b8764cf289565d42cfb
 
 app.use(express.static("public"));
 
