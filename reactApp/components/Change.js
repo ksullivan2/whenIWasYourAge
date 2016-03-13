@@ -20,7 +20,11 @@ handleEndYearChange: function(e){
 
 handleSubmit:function(e){
 	e.preventDefault();
-	this.props.changeInfo(this.state.name, this.state.birthYear, this.state.endYear)
+	var endYear = 2016;
+	if (this.state.endYear){
+		var endYear = this.state.endYear
+	} 
+	this.props.changeInfo(this.state.name, this.state.birthYear, endYear)
 
 },
 

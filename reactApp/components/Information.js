@@ -2,7 +2,7 @@ var React = require('react');
 
 var Slider = require('./Slider');
 var Change = require('./Change');
-var Sentence = require('./Name');
+var Sentence = require('./Sentence');
 
 var Information = React.createClass({
   getInitialState: function(){
