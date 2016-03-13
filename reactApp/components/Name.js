@@ -4,8 +4,8 @@ var React = require('react');
 var Name = React.createClass({
   render: function () {
     return (
-      <div id='Name'>
-        Name
+    <div id="Name">
+      <p>{this.props.name}</p>
       </div>
     )
   }

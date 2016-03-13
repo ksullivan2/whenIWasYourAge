@@ -59,7 +59,6 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'App' },
-	      'App',
 	      React.createElement(Information, null),
 	      React.createElement(FactList, null)
 	    );
@@ -19687,7 +19686,6 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'FactList' },
-	      'FactList',
 	      React.createElement(Fact, null),
 	      React.createElement(Fact, null),
 	      React.createElement(Fact, null),
@@ -19730,7 +19728,7 @@
 
 	var Slider = __webpack_require__(162);
 	var Change = __webpack_require__(165);
-	var Name = __webpack_require__(166);
+	var Name = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Name\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 	var Information = React.createClass({
 	  displayName: 'Information',
@@ -19791,7 +19789,11 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'BirthYear' },
-	      'BirthYear'
+	      React.createElement(
+	        'form',
+	        { id: 'BirthYearForm' },
+	        React.createElement('input', { type: 'text', maxLength: '4', max: '2015', min: '1900', className: 'yearInput', placeholder: 'Start' })
+	      )
 	    );
 	  }
 	});
@@ -19813,7 +19815,11 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'EndYear' },
-	      'EndYear'
+	      React.createElement(
+	        'form',
+	        { id: 'EndYearForm' },
+	        React.createElement('input', { type: 'text', maxLength: '4', max: '2016', min: '1900', className: 'yearInput', placeholder: 'End' })
+	      )
 	    );
 	  }
 	});
@@ -19841,28 +19847,6 @@
 	});
 
 	module.exports = Change;
-
-/***/ },
-/* 166 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(1);
-
-	var Name = React.createClass({
-	  displayName: 'Name',
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { id: 'Name' },
-	      'Name'
-	    );
-	  }
-	});
-
-	module.exports = Name;
 
 /***/ }
 /******/ ]);
