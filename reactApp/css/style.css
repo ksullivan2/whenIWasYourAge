@@ -41,20 +41,34 @@ body div div{
   height: 50%;
   top: 30%;
   left: 5%;
+  display: inline-flex;
 }
 
 #BirthYear {
-  width: 5em;
+  width: 4em;
   height: 50%;
   top: 25%;
   left: 1%;
+  display: inline-block;
+}
+
+#yearSliderDIV{
+  width: 80%;
+  display: inline-block;
+  top:40%;
+  left: 10%;
+}
+
+#yearSlider{
+  width: 100%;
 }
 
 #EndYear {
-  width: 5em;
+  width: 4em;
   height: 50%;
   top: 25%;
   right: 1%;
+  display: flex;
 }
 
 #Change {
@@ -70,3 +84,5 @@ body div div{
   top: 1%;
   left: 40%;
 }
+
+
