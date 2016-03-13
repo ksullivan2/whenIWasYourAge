@@ -24,7 +24,10 @@ handleSubmit:function(e){
 	if (this.state.endYear){
 		var endYear = this.state.endYear
 	} 
-	this.props.changeInfo(this.state.name, this.state.birthYear, endYear)
+	this.props.changeInfo(this.state.name, this.state.birthYear, endYear);
+	this.setState({
+		name: '', birthYear:'', endYear:''
+	})
 
 },
 
