@@ -5,7 +5,7 @@ var Name = React.createClass({
   render: function () {
     return (
     <div id="Name">
-      <p>{this.props.name}</p>
+      <p>When {this.props.name} was...</p>
       </div>
     )
   }

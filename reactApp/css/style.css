@@ -49,12 +49,12 @@ body div div{
   height: 50%;
   top: 25%;
   left: 1%;
-  display: inline-block;
+  text-align: center;
+  
 }
 
 #yearSliderDIV{
   width: 80%;
-  display: inline-block;
   top:40%;
   left: 10%;
 }
@@ -68,7 +68,8 @@ body div div{
   height: 50%;
   top: 25%;
   right: 1%;
-  display: flex;
+  text-align: center;
+
 }
 
 #Change {
@@ -79,10 +80,12 @@ body div div{
 }
 
 #Name {
-  width: 25%;
+  width: 30%;
   height: 20%;
   top: 1%;
-  left: 40%;
+  left: 35%;
+  text-align: center;
+
 }
 
 
