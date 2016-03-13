@@ -59,6 +59,15 @@ body div div{
   left: 10%;
 }
 
+#Age{
+  left:50%;
+}
+
+#selectedYear{
+  left: 40%;
+  bottom: 0%
+}
+
 #yearSlider{
   width: 100%;
 }

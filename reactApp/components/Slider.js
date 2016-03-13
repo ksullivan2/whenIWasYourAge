@@ -1,25 +1,39 @@
 var React = require('react');
+var YearDisplay = require('./YearDisplay');
 
-var BirthYear = require('./BirthYear');
-var EndYear = require('./EndYear');
 
 var Slider = React.createClass({
+	getInitialState: function(){
+		return {
+			selectedYear: parseInt(this.props.birthYear) + 16,
+			age: 16
+		}
+	},
 
+	handleChange: function(e){
+		this.setState( {
+			selectedYear: e.target.value,
+			age: parseInt(e.target.value) - parseInt(this.props.birthYear)
+		});
+	},
 
   render: function () {
-  	var sliderLength = (this.props.endYear-this.props.birthYear);
 
     return (
       <div id='Slider'>
-        <BirthYear birthYear={this.props.birthYear} />
+        <YearDisplay id="selectedYear" year={this.state.selectedYear} />
+        <YearDisplay id="BirthYear" year={this.props.birthYear} />
         <div id="yearSliderDIV">
 	        <input id="yearSlider"
 	        	type="range" 
 	        	defaultValue="16" 
-	        	min= "0"
-	        	max= {sliderLength}/>
+	        	min= {this.props.birthYear}
+	        	max= {this.props.endYear}
+	        	onChange= {this.handleChange}/>
 	       </div>
-        <EndYear endYear={this.props.endYear} />
+        <YearDisplay id="EndYear" year={this.props.endYear} />
+        <YearDisplay id="Age" year={this.state.age} />
+
       </div>
     )
   }
