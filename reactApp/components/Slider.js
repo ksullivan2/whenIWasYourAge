@@ -5,19 +5,12 @@ var EndYear = require('./EndYear');
 
 var Slider = React.createClass({
 
-	getInitialState: function(){
-		return{
-			birthYear: this.props.birthYear,
-			endYear: this.props.endYear
-		}
-	},
-
   render: function () {
     return (
       <div id='Slider'>
         Slider
-        <BirthYear birthYear={this.state.birthYear} />
-        <EndYear endYear={this.state.endYear} />
+        <BirthYear birthYear={this.props.birthYear} />
+        <EndYear endYear={this.props.endYear} />
       </div>
     )
   }
