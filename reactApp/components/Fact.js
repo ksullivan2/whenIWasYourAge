@@ -1,16 +1,16 @@
 var React = require('react');
 
 
-var Fact3 = React.createClass({
+var Fact = React.createClass({
   render: function () {
     return (
-      <div id='Fact3'>
-        Fact3
+      <div className="Fact" >
+        Fact 
       </div>
     )
   }
 });
 
-module.exports = Fact3;
+module.exports = Fact;
 
 
