@@ -13,13 +13,20 @@ var Information = React.createClass({
     }
   },
 
+  changeInfo: function(name, birthYear,endYear){
+    this.setState({
+      name: name,
+      birthYear: birthYear,
+      endYear: endYear
+    });
+  },
 
   render: function () {
     return (
       <div id='Information'>
         Information
         <Slider birthYear={this.state.birthYear} endYear={this.state.endYear}/>
-        <Change />
+        <Change changeInfo={this.changeInfo}/>
         <Name name={this.state.name}/>
       </div>
     )
