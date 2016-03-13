@@ -16,10 +16,13 @@ var Information = React.createClass({
   },
 
   changeInfo: function(name, birthYear,endYear){
+    var calcSelectedYear = parseInt(birthYear)+16;
     this.setState({
       name: name,
       birthYear: birthYear,
-      endYear: endYear
+      endYear: endYear,
+      age: 16,
+      selectedYear: calcSelectedYear
     });
   },
 
@@ -34,9 +37,17 @@ var Information = React.createClass({
     return (
       <div id='Information'>
         Information
-        <Slider birthYear={this.state.birthYear} endYear={this.state.endYear} changeYear={this.changeYear}/>
-        <Change changeInfo={this.changeInfo}/>
-        <Sentence name={this.state.name} selectedYear={this.state.selectedYear} age={this.state.age}/>
+        <Slider 
+          selectedYear={this.state.selectedYear}
+          birthYear={this.state.birthYear} 
+          endYear={this.state.endYear} 
+          changeYear={this.changeYear}/>
+        <Change 
+          changeInfo={this.changeInfo}/>
+        <Sentence 
+          name={this.state.name} 
+          selectedYear={this.state.selectedYear} 
+          age={this.state.age}/>
       </div>
     )
   }
