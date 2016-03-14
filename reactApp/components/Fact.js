@@ -6,8 +6,7 @@ var Fact = React.createClass({
     return (
       <div className="Fact" >
         {this.props.eventText}
-        <br / >
-        I know the year is {this.props.year}
+        
       </div>
     )
   }

@@ -5,26 +5,17 @@ var EventsList = require('./EventsList');
 
 
 var FactList = React.createClass({
-  getInitialState: function(){
-   
-    var year = this.props.selectedYear;
-    return{
-      events: EventsList[year]
-    }
-  },
-
-
-
 
   render: function () {
-    var year = this.props.selectedYear
-  
-      var listItems = this.state.events.map(function(event){
-        return <Fact eventText={event} year={year}/>;
+    var year = this.props.selectedYear;  
+    var listItems = EventsList[year].map(function(event){
+        return <Fact eventText={event} />;
       });
     return (
-      <div id="FactList" > 
+      <div id="FactList" >
+      
         {listItems}
+        
       </div>
     )
   }
