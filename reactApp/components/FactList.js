@@ -8,7 +8,6 @@ var FactList = React.createClass({
   getInitialState: function(){
    
     var year = this.props.selectedYear;
-
     return{
       events: EventsList[year]
     }
@@ -18,9 +17,10 @@ var FactList = React.createClass({
 
 
   render: function () {
-    console.log(this.state)
+    var year = this.props.selectedYear
+  
       var listItems = this.state.events.map(function(event){
-        return <Fact eventText={event} />;
+        return <Fact eventText={event} year={year}/>;
       });
     return (
       <div id="FactList" > 
