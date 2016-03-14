@@ -5,7 +5,7 @@ var Fact = React.createClass({
   render: function () {
     return (
       <div className="Fact" >
-        Fact 
+        {this.props.eventText}
       </div>
     )
   }
