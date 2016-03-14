@@ -38,13 +38,13 @@ handleSubmit:function(e){
         <input id = "nameField"
         	required 
         	type="text" 
-        	placeholder="Name"
+        	placeholder="Name*"
         	value={this.state.name}
         	onChange={this.handleNameChange} />
         <input id="birthYearField" 
         	required 
         	type="text" 
-        	placeholder="Birth Year"
+        	placeholder="Birth Year*"
         	value = {this.state.birthYear}
         	onChange = {this.handleBirthYearChange} />
         <input id="endYearField" 

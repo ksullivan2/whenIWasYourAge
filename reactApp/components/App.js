@@ -5,12 +5,26 @@ var FactList = require('./FactList');
 var Information = require('./Information');
 
 var App = React.createClass({
+  getInitialState: function(){
+  	return{
+  		selectedYear: "1972"
+  	}
+  },
+
+  changeYear: function(year){
+  	this.setState({
+  		selectedYear: year
+  	})
+  },
+
+
+
   render: function () {
     return (
       <div id='App'>
         
-        <Information />
-        <FactList />
+        <Information selectedYear={this.state.selectedYear} changeYear={this.changeYear}/>
+        <FactList selectedYear={this.state.selectedYear} />
       </div>
     )
   }

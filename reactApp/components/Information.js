@@ -10,25 +10,25 @@ var Information = React.createClass({
       name:"Tom",
       birthYear: "1956",
       endYear: "2016",
-      selectedYear: "1972",
       age: 16
     }
   },
 
   changeInfo: function(name, birthYear,endYear){
-    var calcSelectedYear = parseInt(birthYear)+16;
+    this.props.changeYear( parseInt(birthYear)+16);
+
     this.setState({
       name: name,
       birthYear: birthYear,
       endYear: endYear,
       age: 16,
-      selectedYear: calcSelectedYear
     });
   },
 
   changeYear: function(year){
+    this.props.changeYear(year);
+
     this.setState( {
-      selectedYear: year,
       age: parseInt(year)- parseInt(this.state.birthYear)
     });
   },
@@ -38,7 +38,7 @@ var Information = React.createClass({
       <div id='Information'>
         Information
         <Slider 
-          selectedYear={this.state.selectedYear}
+          selectedYear={this.props.selectedYear}
           birthYear={this.state.birthYear} 
           endYear={this.state.endYear} 
           changeYear={this.changeYear}/>
@@ -46,7 +46,7 @@ var Information = React.createClass({
           changeInfo={this.changeInfo}/>
         <Sentence 
           name={this.state.name} 
-          selectedYear={this.state.selectedYear} 
+          selectedYear={this.props.selectedYear} 
           age={this.state.age}/>
       </div>
     )
