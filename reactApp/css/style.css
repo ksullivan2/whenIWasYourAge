@@ -1,0 +1,100 @@
+
+body div div{
+  border: 1px solid black;
+  position: absolute;
+}
+
+#App {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.Fact{
+  width: 45%;
+  height: 45%;
+  position: relative;
+  display: inline-block;
+
+}
+
+#FactList {
+  width: 100%;
+  height: 70%;
+  top: 30%;
+  border: 2px solid red;
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+
+#Information {
+  width: 100%;
+  height: 30%;
+  
+}
+
+#Slider {
+  width: 90%;
+  height: 50%;
+  top: 30%;
+  left: 5%;
+  display: inline-flex;
+}
+
+#BirthYear {
+  width: 4em;
+  height: 50%;
+  top: 25%;
+  left: 1%;
+  text-align: center;
+  
+}
+
+#yearSliderDIV{
+  width: 80%;
+  top:40%;
+  left: 10%;
+}
+
+#Age{
+  left:50%;
+}
+
+#selectedYear{
+  left: 40%;
+  bottom: 0%
+}
+
+#yearSlider{
+  width: 100%;
+}
+
+#EndYear {
+  width: 4em;
+  height: 50%;
+  top: 25%;
+  right: 1%;
+  text-align: center;
+
+}
+
+#Change {
+  width: 5%;
+  height: 15%;
+  top: 2%;
+  right: 2%;
+}
+
+#Name {
+  width: 30%;
+  height: 20%;
+  top: 1%;
+  left: 35%;
+  text-align: center;
+
+}
+
+
