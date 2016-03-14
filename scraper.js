@@ -5,7 +5,7 @@ var Promise = require('bluebird');
 
 var monthNamesRE = /^(january|february|march|april|may|june|july|august|september|october|november|december)/i
 var yearRE = /^\d{4}$/;
-var siteRE = /\.org\//
+var siteRE = /\.org\//;
 
 //returns yearEvents Arr with promises for yearEvents
 function createYearEvents(url){
@@ -22,7 +22,7 @@ function createYearEvents(url){
 
 
 		//create an array to return at the end, will have "eventObjects"
-		var yearEvents = []
+		var yearEvents = [];
 
 		//grab all of the uls on the page and create list of events from within them
 		var yearEventsULs = $('#mw-content-text').children("ul");
@@ -32,12 +32,16 @@ function createYearEvents(url){
 		//for each event on the page, return a promise for the eventObject
 		yearEventsULs.each(function(){
 			
+			var ulTitle = 'title'//find where the text is
 
+			//loop through each ul to find child li's (find will find nested??)
 			//within each LI, create an eventObject with text, links, and score
-			$(this).children().each(function (){
+			$(this).find('li').each(function (){
 				//the full text of the event
 				var text = $(this).text();
-				
+				if (ulTitle === 'Births') text = 'Birth: ' + text;
+				else if (ulTitle === 'Deaths') text = 'Death: ' + text;
+
 				//grab an array of all the links within the li
 				var links = [];
 
@@ -69,7 +73,11 @@ function createYearEvents(url){
 						// console.log('added scores to get', sum, 'for', text);
 						return sum/links.length;
 					});
-				}, 0);
+				}, 0)
+				.catch(function(err){
+					console.error('error in creating calculating score', err);
+					return 0;
+				});
 
 
 				//create promise for eventObject once all scores resolve
@@ -110,7 +118,9 @@ function createCheerio(url){
 			normalizeWhitespace: true});
 
 		return $
-	})
+	}).catch(function(err){
+		console.error('error in creating cheerio obj', err)
+	});
 }
 
 
@@ -125,7 +135,8 @@ function whatLinksHere(url){
 								+ titleOfPage + "&limit=5000");
 
 		return createCheerio(whatLinksHereURL)
-		.then(function($){
+	})
+	.then(function($){
 			var counter = 0;
 
 			$("#mw-whatlinkshere-list li a").each(function(){
@@ -135,11 +146,14 @@ function whatLinksHere(url){
 					// console.log(title)
 					counter ++;
 				}
-			})
+			});
 			// console.log('resolving', titleOfPage, counter)
 			return counter;
 		})
-	})
+	.catch(function(err){
+		console.error('error in counting links', err);
+		return 0;
+	});
 }
 
 

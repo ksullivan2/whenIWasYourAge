@@ -2,15 +2,15 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 <<<<<<< HEAD
+
+=======
 var seq = require('./database').seq;
 var EventModel = require('./database').EventModel;
 var scrapeYear = require('./scraper');
 var testYear = "https://en.wikipedia.org/wiki/1156";
 var wikiPrefix = 'https://en.wikipedia.org/wiki/';
 var Promise = require('bluebird');
-=======
-
->>>>>>> f86b85466dd30a08356f4b8764cf289565d42cfb
+>>>>>>> scrapes events with scores based on backlinks and writes to db
 
 app.use(express.static("public"));
 
@@ -19,22 +19,22 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/year/:year', function(req, res){
-  return scrapeYear(wikiPrefix+req.params.year)
-  .then(function(eventsArr){
-    return Promise.all(eventsArr, function(promEventObj){
-      return promEventObj.then(function(eventObj){
-        return EventModel.create({
-          text: eventsArr.text,
-          year: parseInt(req.params.year, 10),
-          score: eventsArr.score,
-          links: eventsArr.links.join(' ')
-        });
-      });
-    });
-    console.log('got events', eventsArr);
-  });
-});
+// app.post('/year/:year', function(req, res){
+//   return scrapeYear(wikiPrefix+req.params.year)
+//   .then(function(eventsArr){
+//     return Promise.all(eventsArr, function(promEventObj){
+//       return promEventObj.then(function(eventObj){
+//         return EventModel.create({
+//           text: eventsArr.text,
+//           year: parseInt(req.params.year, 10),
+//           score: eventsArr.score,
+//           links: eventsArr.links.join(' ')
+//         });
+//       });
+//     });
+//     console.log('got events', eventsArr);
+//   });
+// });
 
 app.get('/post/year/:year', function(req, res){
   console.log('matched req to', req.params.year)
@@ -49,6 +49,11 @@ app.get('/post/year/:year', function(req, res){
           score: eventObj.score,
           links: eventObj.links.join(' ')
         });
+        // return eventObj
+        }).then(function(event){
+          console.log('created', event);
+          return event;
+      });
     });
   }).then(function(finEventsArr){
       console.log('got events', finEventsArr);

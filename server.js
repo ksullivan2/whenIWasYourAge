@@ -15,44 +15,52 @@ app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post('/year/:year', function(req, res){
-  return scrapeYear(wikiPrefix+req.params.year)
-  .then(function(eventsArr){
-    return Promise.all(eventsArr, function(promEventObj){
-      return promEventObj.then(function(eventObj){
-        return EventModel.create({
-          text: eventsArr.text,
-          year: parseInt(req.params.year, 10),
-          score: eventsArr.score,
-          links: eventsArr.links.join(' ')
-        });
-      });
-    });
-    console.log('got events', eventsArr);
-  });
-});
+// app.post('/year/:year', function(req, res){
+//   return scrapeYear(wikiPrefix+req.params.year)
+//   .then(function(eventsArr){
+//     return Promise.all(eventsArr, function(promEventObj){
+//       return promEventObj.then(function(eventObj){
+//         return EventModel.create({
+//           text: eventsArr.text,
+//           year: parseInt(req.params.year, 10),
+//           score: eventsArr.score,
+//           links: eventsArr.links.join(' ')
+//         });
+//       });
+//     });
+//     console.log('got events', eventsArr);
+//   });
+// });
 
 app.get('/post/year/:year', function(req, res){
   console.log('matched req to', req.params.year)
   return scrapeYear(wikiPrefix+req.params.year)
   .then(function(eventsArr){
+    res.send(eventsArr)
     // console.log('received promise for eventsArr', eventsArr)
+      console.log('found', eventsArr.length, 'events');
     return Promise.map(eventsArr, function(eventObj){
-      console.log('eventObj', eventObj);
       return EventModel.create({
           text: eventObj.text,
           year: parseInt(req.params.year, 10),
           score: eventObj.score,
           links: eventObj.links.join(' ')
         });
+    }).catch(function(err){
+      console.error('error in mapping events arr promises', err);
+      return [];
     });
-  }).then(function(finEventsArr){
-      console.log('got events', finEventsArr);
-      res.send(finEventsArr);
-    });
+  })
+  .then(function(finEventsArr){
+      console.log('got events', finEventsArr.length);
+      // res.send(finEventsArr);
+  })
+  .catch(function(err){
+    console.log('error somewhere??', err);
+  });
 });
 
-seq.sync({force:true})
+seq.sync()
 .then(function(){
   http.listen(process.env.PORT || 5000, function(){
     console.log('listening on *:5000');
