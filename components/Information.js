@@ -15,13 +15,14 @@ var Information = React.createClass({
   },
 
   changeInfo: function(name, birthYear,endYear){
-    this.props.changeYear( parseInt(birthYear)+16);
+    var defaultAge = Math.floor((endYear - birthYear)/2)
+    this.props.changeYear( parseInt(birthYear)+defaultAge);
 
     this.setState({
       name: name,
       birthYear: birthYear,
       endYear: endYear,
-      age: 16,
+      age: defaultAge,
     });
   },
 

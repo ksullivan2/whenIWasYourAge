@@ -18,29 +18,35 @@
       "es2015",
       "stage-0"
     ]
-  }, 
+  },
   "devDependencies": {
     "watchify": "^3.2.2"
   },
   "dependencies": {
-    "path": "^0.12.7",
-    "react": "^0.14",
-    "react-dom": "^0.14.0",
-    "babel-preset-es2015": "^6.0.15",
-    "babel-preset-react": "^6.0.15",
-    "babelify": "^7.2.0",
-    "express" : "^4.13.3",
     "babel-core": "^6.0.20",
     "babel-eslint": "^4.1.3",
     "babel-loader": "^6.0.1",
+    "babel-preset-es2015": "^6.0.15",
+    "babel-preset-react": "^6.0.15",
     "babel-preset-stage-0": "^6.0.15",
-    "eslint-plugin-react": "^3.6.2",
-    "react-hot-loader": "^1.3.0",
-    "webpack": "^1.12.2",
-    "webpack-dev-server": "^1.12.1" },
+    "babelify": "^7.2.0",
     "bluebird": "^3.3.4",
     "cheerio": "^0.20.0",
+    "eslint-plugin-react": "^3.6.2",
+    "express": "^4.13.3",
+    "path": "^0.12.7",
     "pg": "^4.5.1",
+    "react": "^0.14",
+    "react-dom": "^0.14.0",
+    "react-hot-loader": "^1.3.0",
     "request-promise": "^2.0.1",
-    "sequelize": "^3.19.3"
+    "sequelize": "^3.19.3",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1"
+  },
+  "bluebird": "^3.3.4",
+  "cheerio": "^0.20.0",
+  "pg": "^4.5.1",
+  "request-promise": "^2.0.1",
+  "sequelize": "^3.19.3"
 }

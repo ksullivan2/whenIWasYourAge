@@ -7,30 +7,46 @@ var scrapeYear = require('./scraper');
 var testYear = "https://en.wikipedia.org/wiki/1156";
 var wikiPrefix = 'https://en.wikipedia.org/wiki/';
 var Promise = require('bluebird');
+// var path = require('path');
 
-app.use(express.static("public"));
-
+// app.use(express.static(path.join(__dirname, './../')));
+app.use(express.static(__dirname+"/public/"));
 
 app.get('/', function(req, res){
   res.sendFile(__dirname + '/index.html');
 });
 
-// app.post('/year/:year', function(req, res){
-//   return scrapeYear(wikiPrefix+req.params.year)
-//   .then(function(eventsArr){
-//     return Promise.all(eventsArr, function(promEventObj){
-//       return promEventObj.then(function(eventObj){
-//         return EventModel.create({
-//           text: eventsArr.text,
-//           year: parseInt(req.params.year, 10),
-//           score: eventsArr.score,
-//           links: eventsArr.links.join(' ')
-//         });
-//       });
-//     });
-//     console.log('got events', eventsArr);
-//   });
-// });
+app.post('/api/year/:year', function(req, res){
+  console.log('matched req to', req.params.year)
+  return scrapeYear(wikiPrefix+req.params.year)
+  .then(function(eventsArr){
+    res.send(eventsArr);
+    // console.log('received promise for eventsArr', eventsArr)
+      console.log('found', eventsArr.length, 'events');
+    return Promise.map(eventsArr, function(eventObj){
+      return EventModel.create({
+          text: eventObj.text,
+          year: parseInt(req.params.year, 10),
+          score: eventObj.score,
+          links: eventObj.links.join(' ')
+        });
+    }).catch(function(err){
+      console.error('error in mapping events arr promises', err);
+      return [];
+    });
+  })
+  .then(function(finEventsArr){
+      console.log('got events', finEventsArr.length);
+      // res.send(finEventsArr);
+  })
+  .catch(function(err){
+    console.log('error somewhere??', err);
+  });
+});
+
+app.get('/api/range', function(req, res){
+  
+})
 
 app.get('/post/year/:year', function(req, res){
   console.log('matched req to', req.params.year)
