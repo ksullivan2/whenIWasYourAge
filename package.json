@@ -1,23 +1,46 @@
 {
-  "name": "when-i-was-your-age",
+  "name": "whenIWasYourAge",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "Your awesome project!",
+  "main": "bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "prestart": "npm run task",
+    "start": "node server/server.js",
+    "start-dev": "node server/dev-server.js",
+    "lint": "eslint components",
+    "task": "webpack"
   },
   "author": "",
   "license": "ISC",
+  "babel": {
+    "presets": [
+      "react",
+      "es2015",
+      "stage-0"
+    ]
+  }, 
+  "devDependencies": {
+    "watchify": "^3.2.2"
+  },
   "dependencies": {
+    "path": "^0.12.7",
+    "react": "^0.14",
+    "react-dom": "^0.14.0",
+    "babel-preset-es2015": "^6.0.15",
+    "babel-preset-react": "^6.0.15",
+    "babelify": "^7.2.0",
+    "express" : "^4.13.3",
+    "babel-core": "^6.0.20",
+    "babel-eslint": "^4.1.3",
+    "babel-loader": "^6.0.1",
+    "babel-preset-stage-0": "^6.0.15",
+    "eslint-plugin-react": "^3.6.2",
+    "react-hot-loader": "^1.3.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-server": "^1.12.1" },
     "bluebird": "^3.3.4",
     "cheerio": "^0.20.0",
-    "express": "^4.13.4",
-<<<<<<< HEAD
-=======
     "pg": "^4.5.1",
->>>>>>> master
     "request-promise": "^2.0.1",
     "sequelize": "^3.19.3"
-  }
 }

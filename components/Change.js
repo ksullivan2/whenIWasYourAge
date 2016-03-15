@@ -2,34 +2,34 @@ var React = require('react');
 
 
 var Change = React.createClass({
-getInitialState: function(){
-	return {name: '', birthYear:'', endYear:''}
-},
+    getInitialState: function(){
+    	return {name: '', birthYear:'', endYear:''}
+    },
 
-handleNameChange: function(e){
-	this.setState({name: e.target.value});
-},
+    handleNameChange: function(e){
+    	this.setState({name: e.target.value});
+    },
 
-handleBirthYearChange: function(e){
-	this.setState({birthYear: e.target.value});
-},
+    handleBirthYearChange: function(e){
+    	this.setState({birthYear: e.target.value});
+    },
 
-handleEndYearChange: function(e){
-	this.setState({endYear: e.target.value});
-},
+    handleEndYearChange: function(e){
+    	this.setState({endYear: e.target.value});
+    },
 
-handleSubmit:function(e){
-	e.preventDefault();
-	var endYear = 2016;
-	if (this.state.endYear){
-		var endYear = this.state.endYear
-	} 
-	this.props.changeInfo(this.state.name, this.state.birthYear, endYear);
-	this.setState({
-		name: '', birthYear:'', endYear:''
-	})
+    handleSubmit:function(e){
+    	e.preventDefault();
+    	var endYear = 2016;
+    	if (this.state.endYear){
+    		var endYear = this.state.endYear
+    	} 
+    	this.props.changeInfo(this.state.name, this.state.birthYear, endYear);
+    	this.setState({
+    		name: '', birthYear:'', endYear:''
+    	})
 
-},
+    },
 
   render: function () {
     return (

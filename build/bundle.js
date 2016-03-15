@@ -50,17 +50,29 @@
 	var ReactDOM = __webpack_require__(158);
 	var FactList = __webpack_require__(159);
 
-	var Information = __webpack_require__(161);
+	var Information = __webpack_require__(162);
 
 	var App = React.createClass({
 	  displayName: 'App',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      selectedYear: "1972"
+	    };
+	  },
+
+	  changeYear: function changeYear(year) {
+	    this.setState({
+	      selectedYear: year
+	    });
+	  },
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      { id: 'App' },
-	      React.createElement(Information, null),
-	      React.createElement(FactList, null)
+	      React.createElement(Information, { selectedYear: this.state.selectedYear, changeYear: this.changeYear }),
+	      React.createElement(FactList, { selectedYear: this.state.selectedYear })
 	    );
 	  }
 	});
@@ -19678,18 +19690,21 @@
 
 	var React = __webpack_require__(1);
 	var Fact = __webpack_require__(160);
+	var EventsList = __webpack_require__(161);
 
 	var FactList = React.createClass({
 	  displayName: 'FactList',
 
+
 	  render: function render() {
+	    var year = this.props.selectedYear;
+	    var listItems = EventsList[year].map(function (event) {
+	      return React.createElement(Fact, { eventText: event });
+	    });
 	    return React.createElement(
 	      'div',
 	      { id: 'FactList' },
-	      React.createElement(Fact, null),
-	      React.createElement(Fact, null),
-	      React.createElement(Fact, null),
-	      React.createElement(Fact, null)
+	      listItems
 	    );
 	  }
 	});
@@ -19711,7 +19726,7 @@
 	    return React.createElement(
 	      "div",
 	      { className: "Fact" },
-	      "Fact"
+	      this.props.eventText
 	    );
 	  }
 	});
@@ -19720,32 +19735,21 @@
 
 /***/ },
 /* 161 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
+	"use strict";
 
-	var React = __webpack_require__(1);
+	var EventsList = {};
 
-	var Slider = __webpack_require__(162);
-	var Change = __webpack_require__(165);
-	var Name = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Name\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	for (var i = 1900; i <= 2016; i++) {
+		var year = i.toString();
+		EventsList[year] = ["Event 1 in " + year, "Event 2 in " + year, "Event 3 in " + year];
+		if (year % 4 === 0) {
+			EventsList[year].push("it was a leap year");
+		}
+	}
 
-	var Information = React.createClass({
-	  displayName: 'Information',
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { id: 'Information' },
-	      'Information',
-	      React.createElement(Slider, null),
-	      React.createElement(Change, null),
-	      React.createElement(Name, null)
-	    );
-	  }
-	});
-
-	module.exports = Information;
+	module.exports = EventsList;
 
 /***/ },
 /* 162 */
@@ -19755,24 +19759,62 @@
 
 	var React = __webpack_require__(1);
 
-	var BirthYear = __webpack_require__(163);
-	var EndYear = __webpack_require__(164);
+	var Slider = __webpack_require__(163);
+	var Change = __webpack_require__(165);
+	var Sentence = __webpack_require__(166);
 
-	var Slider = React.createClass({
-	  displayName: 'Slider',
+	var Information = React.createClass({
+	  displayName: 'Information',
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      name: "Tom",
+	      birthYear: "1956",
+	      endYear: "2016",
+	      age: 16
+	    };
+	  },
+
+	  changeInfo: function changeInfo(name, birthYear, endYear) {
+	    this.props.changeYear(parseInt(birthYear) + 16);
+
+	    this.setState({
+	      name: name,
+	      birthYear: birthYear,
+	      endYear: endYear,
+	      age: 16
+	    });
+	  },
+
+	  changeYear: function changeYear(year) {
+	    this.props.changeYear(year);
+
+	    this.setState({
+	      age: parseInt(year) - parseInt(this.state.birthYear)
+	    });
+	  },
 
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { id: 'Slider' },
-	      'Slider',
-	      React.createElement(BirthYear, null),
-	      React.createElement(EndYear, null)
+	      { id: 'Information' },
+	      'Information',
+	      React.createElement(Slider, {
+	        selectedYear: this.props.selectedYear,
+	        birthYear: this.state.birthYear,
+	        endYear: this.state.endYear,
+	        changeYear: this.changeYear }),
+	      React.createElement(Change, {
+	        changeInfo: this.changeInfo }),
+	      React.createElement(Sentence, {
+	        name: this.state.name,
+	        selectedYear: this.props.selectedYear,
+	        age: this.state.age })
 	    );
 	  }
 	});
 
-	module.exports = Slider;
+	module.exports = Information;
 
 /***/ },
 /* 163 */
@@ -19781,50 +19823,64 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var YearDisplay = __webpack_require__(164);
 
-	var BirthYear = React.createClass({
-	  displayName: 'BirthYear',
+	var Slider = React.createClass({
+	  displayName: 'Slider',
+
+
+	  handleChange: function handleChange(e) {
+	    this.props.changeYear(e.target.value);
+	  },
 
 	  render: function render() {
+
 	    return React.createElement(
 	      'div',
-	      { id: 'BirthYear' },
+	      { id: 'Slider' },
+	      React.createElement(YearDisplay, { id: 'BirthYear', year: this.props.birthYear }),
 	      React.createElement(
-	        'form',
-	        { id: 'BirthYearForm' },
-	        React.createElement('input', { type: 'text', maxLength: '4', max: '2015', min: '1900', className: 'yearInput', placeholder: 'Start' })
-	      )
+	        'div',
+	        { id: 'yearSliderDIV' },
+	        React.createElement('input', { id: 'yearSlider',
+	          type: 'range',
+	          value: this.props.selectedYear,
+	          min: this.props.birthYear,
+	          max: this.props.endYear,
+	          onChange: this.handleChange })
+	      ),
+	      React.createElement(YearDisplay, { id: 'EndYear', year: this.props.endYear })
 	    );
 	  }
 	});
 
-	module.exports = BirthYear;
+	module.exports = Slider;
 
 /***/ },
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var React = __webpack_require__(1);
 
-	var EndYear = React.createClass({
-	  displayName: 'EndYear',
+	var YearDisplay = React.createClass({
+	  displayName: "YearDisplay",
 
 	  render: function render() {
 	    return React.createElement(
-	      'div',
-	      { id: 'EndYear' },
+	      "div",
+	      { className: "yearDisplay", id: this.props.id },
 	      React.createElement(
-	        'form',
-	        { id: 'EndYearForm' },
-	        React.createElement('input', { type: 'text', maxLength: '4', max: '2016', min: '1900', className: 'yearInput', placeholder: 'End' })
+	        "h2",
+	        null,
+	        this.props.year
 	      )
 	    );
 	  }
 	});
 
-	module.exports = EndYear;
+	module.exports = YearDisplay;
 
 /***/ },
 /* 165 */
@@ -19837,16 +19893,97 @@
 	var Change = React.createClass({
 	  displayName: 'Change',
 
+	  getInitialState: function getInitialState() {
+	    return { name: '', birthYear: '', endYear: '' };
+	  },
+
+	  handleNameChange: function handleNameChange(e) {
+	    this.setState({ name: e.target.value });
+	  },
+
+	  handleBirthYearChange: function handleBirthYearChange(e) {
+	    this.setState({ birthYear: e.target.value });
+	  },
+
+	  handleEndYearChange: function handleEndYearChange(e) {
+	    this.setState({ endYear: e.target.value });
+	  },
+
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var endYear = 2016;
+	    if (this.state.endYear) {
+	      var endYear = this.state.endYear;
+	    }
+	    this.props.changeInfo(this.state.name, this.state.birthYear, endYear);
+	    this.setState({
+	      name: '', birthYear: '', endYear: ''
+	    });
+	  },
+
 	  render: function render() {
 	    return React.createElement(
 	      'div',
 	      { id: 'Change' },
-	      'Change'
+	      React.createElement(
+	        'form',
+	        { id: 'changeForm', onSubmit: this.handleSubmit },
+	        React.createElement('input', { id: 'nameField',
+	          required: true,
+	          type: 'text',
+	          placeholder: 'Name*',
+	          value: this.state.name,
+	          onChange: this.handleNameChange }),
+	        React.createElement('input', { id: 'birthYearField',
+	          required: true,
+	          type: 'text',
+	          placeholder: 'Birth Year*',
+	          value: this.state.birthYear,
+	          onChange: this.handleBirthYearChange }),
+	        React.createElement('input', { id: 'endYearField',
+	          type: 'text',
+	          placeholder: 'End Year',
+	          value: this.state.endYear,
+	          onChange: this.handleEndYearChange }),
+	        React.createElement('input', { type: 'submit' })
+	      )
 	    );
 	  }
 	});
 
 	module.exports = Change;
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(1);
+
+	var Sentence = React.createClass({
+	  displayName: "Sentence",
+
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      { id: "Name" },
+	      React.createElement(
+	        "p",
+	        null,
+	        "In ",
+	        this.props.selectedYear,
+	        ", when ",
+	        this.props.name,
+	        " was ",
+	        this.props.age,
+	        "..."
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Sentence;
 
 /***/ }
 /******/ ]);
