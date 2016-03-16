@@ -30,6 +30,17 @@ var Event = seq.define('event', {
   year: Sequelize.INTEGER,
   score: Sequelize.INTEGER,
   links: Sequelize.TEXT //space delineated string
+},{
+indexes: [
+  {
+    name: 'multi_collumn',
+    fields: ['year', 'score'],
+  },
+   {
+      name: 'btree_index',
+      method: 'BTREE',
+      fields: ['year', {attribute: 'score', order: 'DESC', length: 5}]
+  }]
 });
 
 //starts database

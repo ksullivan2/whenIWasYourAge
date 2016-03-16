@@ -31,8 +31,9 @@ function createYearEvents(url){
 		
 		//for each event on the page, return a promise for the eventObject
 		yearEventsULs.each(function(){
-			
-			var ulTitle = 'title'//find where the text is
+			var ulTitle = $(this).prev('h2').children('.mw-headline').attr('id')
+			// var ulTitle = $(this).prev('h2').children()[0].attr('id'); 
+			console.log('title', ulTitle)
 
 			//loop through each ul to find child li's (find will find nested??)
 			//within each LI, create an eventObject with text, links, and score
@@ -51,11 +52,13 @@ function createYearEvents(url){
 					//filter out dates/years
 					if (linkTitle && linkTitle.search(monthNamesRE) === -1 && linkTitle.search(yearRE) === -1){
 						
+					// console.log('found title', linkTitle)
 						var href = $(this).attr("href");
 
 						//filter out non-wikipedia links and add the prefix to the valid ones
 						if(href.search(siteRE) === -1) {
 							href = 'https://en.wikipedia.org' + href;
+							// console.log('pushing link href', href)
 							links.push(href);
 						} 
 					}		
@@ -75,14 +78,14 @@ function createYearEvents(url){
 					});
 				}, 0)
 				.catch(function(err){
-					console.error('error in creating calculating score', err);
+					console.error('error in creating calculating score', err.message);
 					return 0;
 				});
 
 
 				//create promise for eventObject once all scores resolve
 				var promEventObj = score.then(function(score){
-					console.log('calculated score', score, text);
+					console.log('calculated score', score, text.slice(0,100));
 					return Promise.resolve({
 						text: text,
 						links: links,
@@ -106,7 +109,8 @@ function createYearEvents(url){
 
 
 
-function createCheerio(url){
+function createCheerio(url, again){
+	// console.log('making req for', url)
 	//rp says "once this is done, do the .then function"
 	return rp(url)
 
@@ -117,9 +121,10 @@ function createCheerio(url){
 		$ = cheerio.load(content, {
 			normalizeWhitespace: true});
 
-		return $
+		return $;
 	}).catch(function(err){
-		console.error('error in creating cheerio obj', err)
+		console.error('error in creating cheerio obj for', url, 'again?', again, err.message.slice(0,1000));
+		if(!again) return createCheerio(url, true);
 	});
 }
 
@@ -151,7 +156,7 @@ function whatLinksHere(url){
 			return counter;
 		})
 	.catch(function(err){
-		console.error('error in counting links', err);
+		console.error('error in counting links', err.message);
 		return 0;
 	});
 }
@@ -163,23 +168,23 @@ function whatLinksHere(url){
 	console.log(results)
 })*/
 
-//returns array of events for a given year with ranks resolved
-function resolveYearEvents(url){
-	return createYearEvents(url).then(function(arrProm){
-		// console.log('before all', arrProm)
+// //returns array of events for a given year with ranks resolved
+// function resolveYearEvents(url){
+// 	return createYearEvents(url).then(function(arrProm){
+// 		// console.log('before all', arrProm)
 		
 
-		return Promise.all(arrProm).then(function(arr){
-			console.log('returned arr with ranks', arr);
-			return arr;
-			// var sorted = arr.sort(function(a, b){
-			// 	return a.score - b.score;
-			// })
-			// console.log('after', sorted)
-		});
-	});
+// 		return Promise.all(arrProm).then(function(arr){
+// 			console.log('returned arr with ranks', arr);
+// 			return arr;
+// 			// var sorted = arr.sort(function(a, b){
+// 			// 	return a.score - b.score;
+// 			// })
+// 			// console.log('after', sorted)
+// 		});
+// 	});
 
-}
+// }
 
 module.exports = createYearEvents;
 
