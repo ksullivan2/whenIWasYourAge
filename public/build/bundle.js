@@ -73,28 +73,39 @@
 	      name: "Mocha",
 	      birthYear: "1900",
 	      endYear: "1902",
-	      selectedYear: '1901',
+	      selectedYear: "1901",
 	      events: null
 	    };
 	  },
 
 	  componentDidMount: function componentDidMount() {
-	    this.setState({ events: this.getEventsForTimeline(this.state.birthYear, this.state.endYear) });
+	    this.getEventsForTimeline(this.state.birthYear, this.state.endYear);
 	  },
 
 	  getEventsForTimeline: function getEventsForTimeline(birthYear, endYear) {
-	    console.log("getEventsForTimeline");
+	    var self = this;
 	    var url = "/api/range?min=" + birthYear + "&max=" + endYear + "&perYear=5";
 
 	    $.ajax({
 	      url: url,
-	      success: function success(data) {
-	        return data;
-	      },
+	      success: self.setEventsData,
 	      error: function error(err) {
 	        console.log(err);
 	      }
 	    });
+	  },
+
+	  setEventsData: function setEventsData(data) {
+	    var eventsList = {};
+	    data.forEach(function (event) {
+	      if (eventsList[event.year]) {
+	        eventsList[event.year].push(event);
+	      } else {
+	        eventsList[event.year] = [event];
+	      }
+	    });
+
+	    this.setState({ events: eventsList });
 	  },
 
 	  //changes slider selected year
@@ -131,8 +142,8 @@
 	        endYear: this.state.endYear,
 	        changeYear: this.changeYear }),
 	      React.createElement(FactList, {
-	        selectedYear: this.state.selectedYear
-	        // events={this.state.events}
+	        selectedYear: this.state.selectedYear,
+	        events: this.state.events
 	      })
 	    );
 	  }
@@ -19758,15 +19769,27 @@
 
 
 	  render: function render() {
+	    console.log("inside factlist", this.props.events);
+
 	    var year = this.props.selectedYear;
-	    var listItems = EventsList[year].map(function (event) {
-	      return React.createElement(Fact, { eventText: event });
-	    });
-	    return React.createElement(
-	      'div',
-	      { id: 'FactList' },
-	      listItems
-	    );
+
+	    if (this.props.events) {
+
+	      var listItems = this.props.events[this.props.selectedYear].map(function (event) {
+	        return React.createElement(Fact, { eventText: event.text });
+	      });
+	      return React.createElement(
+	        'div',
+	        { id: 'FactList' },
+	        listItems
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        { id: 'FactList' },
+	        ' LOADING '
+	      );
+	    }
 	  }
 	});
 

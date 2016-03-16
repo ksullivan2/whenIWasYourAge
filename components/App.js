@@ -23,29 +23,40 @@ var App = React.createClass({
       name:"Mocha",
       birthYear: "1900",
       endYear: "1902",
-      selectedYear: '1901',
+      selectedYear: "1901",
       events: null
   	};
   },
 
   componentDidMount: function(){
-    this.setState(
-      {events: this.getEventsForTimeline(this.state.birthYear, this.state.endYear)})
+    this.getEventsForTimeline(this.state.birthYear, this.state.endYear)
 
   },
 
   getEventsForTimeline: function(birthYear, endYear){
-    console.log("getEventsForTimeline")
+    var self = this;
     var url = "/api/range?min="+birthYear+"&max="+endYear+"&perYear=5";
 
     $.ajax({
       url: url,
-      success: function(data){return data},
+      success: self.setEventsData,
       error: function(err){console.log(err)}
     });
-
   },
 
+  setEventsData: function(data){
+    var eventsList = {};
+    data.forEach(function(event){
+      if (eventsList[event.year]){
+        eventsList[event.year].push(event)
+      } else {
+        eventsList[event.year] = [event]
+      }
+    })
+
+    this.setState({events: eventsList})
+  
+  },
 
   //changes slider selected year
   //fires when slider is moved
@@ -82,7 +93,7 @@ var App = React.createClass({
           changeYear={this.changeYear} />
         <FactList 
           selectedYear={this.state.selectedYear}
-          // events={this.state.events} 
+          events={this.state.events} 
           />
       </div>
     )

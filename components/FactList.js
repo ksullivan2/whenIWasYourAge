@@ -7,17 +7,28 @@ var EventsList = require('./EventsList');
 var FactList = React.createClass({
 
   render: function () {
+    console.log("inside factlist", this.props.events)
+
     var year = this.props.selectedYear;  
-    var listItems = EventsList[year].map(function(event){
-        return <Fact eventText={event} />;
-      });
-    return (
-      <div id="FactList" >
+    
+
+    if (this.props.events){
       
-        {listItems}
+      var listItems = this.props.events[this.props.selectedYear].map(function(event){
+          return <Fact eventText={event.text} />;
+        });
+      return (
+        <div id="FactList" >
         
-      </div>
-    )
+          {listItems}
+          
+        </div>
+      )
+    } else{
+      return( <div id="FactList"> LOADING </div>)
+    }
+
+
   }
 });
 
