@@ -4,6 +4,9 @@ var Slider = require('./Slider');
 var Change = require('./Change');
 var Sentence = require('./Sentence');
 
+
+//info receives props:
+// {changeYear, name, birthYear, endYear, age}
 var Information = React.createClass({
   getInitialState: function(){
     return{
@@ -42,9 +45,7 @@ var Information = React.createClass({
           selectedYear={this.props.selectedYear}
           birthYear={this.state.birthYear} 
           endYear={this.state.endYear} 
-          changeYear={this.changeYear}/>
-        <Change 
-          changeInfo={this.changeInfo}/>
+          changeYear={this.props.changeYear}/>
         <Sentence 
           name={this.state.name} 
           selectedYear={this.props.selectedYear} 

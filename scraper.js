@@ -32,8 +32,6 @@ function createYearEvents(url){
 		//for each event on the page, return a promise for the eventObject
 		yearEventsULs.each(function(){
 			var ulTitle = $(this).prev('h2').children('.mw-headline').attr('id')
-			// var ulTitle = $(this).prev('h2').children()[0].attr('id'); 
-			console.log('title', ulTitle)
 
 			//loop through each ul to find child li's (find will find nested??)
 			//within each LI, create an eventObject with text, links, and score
@@ -58,7 +56,6 @@ function createYearEvents(url){
 						//filter out non-wikipedia links and add the prefix to the valid ones
 						if(href.search(siteRE) === -1) {
 							href = 'https://en.wikipedia.org' + href;
-							// console.log('pushing link href', href)
 							links.push(href);
 						} 
 					}		
