@@ -1,5 +1,5 @@
 var DATABASE = process.env.DATABASE || 'wheniwasyourage';
-var USERNAME = process.env.DB_USERNAME || 'chandragalbiati';
+var USERNAME = process.env.DB_USERNAME || 'kaleysullivan';
 var Sequelize = require('sequelize');
 
 var seq = new Sequelize(DATABASE, USERNAME, "", {
