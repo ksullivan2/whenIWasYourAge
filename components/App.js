@@ -68,14 +68,17 @@ var App = React.createClass({
 
   //fires when form is submitted
   changeInfo: function(name, birthYear,endYear){
-    var defaultAge = Math.floor((endYear - birthYear)/2)
-    this.props.changeYear( parseInt(birthYear)+defaultAge);
+    var defaultSelectedYear = Math.floor((endYear - birthYear)/2)+ parseInt(birthYear);
+    console.log(defaultSelectedYear, birthYear, endYear)
+    // this.changeYear(defaultSelectedYear);
+
+    this.getEventsForTimeline(birthYear,endYear);
 
     this.setState({
       name: name,
       birthYear: birthYear,
       endYear: endYear,
-      age: defaultAge,
+      selectedYear: defaultSelectedYear,
     });
   },
 
