@@ -1,6 +1,7 @@
 'use strict';
 
-var scrapeYear = require('./scraper');
+var scrapeYear = require('./scraper').createYearEvents;
+var calcScore = require('./scraper').calcScore;
 var Promise = require('bluebird');
 var wikiPrefix = 'https://en.wikipedia.org/wiki/';
 var EventModel = require('./database').EventModel;
@@ -14,22 +15,44 @@ function scrapeDataForYear(year){
   }
   console.log(year)
   return scrapeYear(wikiPrefix+year)
-  .then(function(eventsArr){
-      console.log('found', eventsArr.length, 'events');
-    return Promise.map(eventsArr, function(eventObj){
-      return EventModel.create({
-          text: eventObj.text,
-          year: parseInt(year, 10),
-          score: eventObj.score,
-          links: eventObj.links.join(' ')
+  .then(function(eventsArrNoScores){
+    // console.log('got back events from scraper', eventsArrNoScores)
+    var slicedArr = [];
+    do { 
+      var sliceEnd = eventsArrNoScores.length<400 ? eventsArrNoScores.length : 400;
+      slicedArr.push(eventsArrNoScores.splice(0, sliceEnd));
+    } while (eventsArrNoScores.length>400);
+    // console.log(slicedArr)
+    return Promise.each(slicedArr, function(arrSlice){
+      console.log('going through slices', arrSlice.length)
+      //return arr with promises for eventObjs
+      return Promise.map(arrSlice, function(eventObj){
+        // console.log('eventObj', eventObj)
+          eventObj.score = calcScore(eventObj.links);
+          return eventObj;
+      })
+      .then(function(eventsArr){
+          console.log('found', eventsArr.length, 'events');
+        return Promise.map(eventsArr, function(eventObj){
+          return eventObj.score.then(function(score){
+              return EventModel.create({
+                text: eventObj.text,
+                year: parseInt(year, 10),
+                score: score,
+                links: eventObj.links.join(' ')
+              });       
+          });
+        }).catch(function(err){
+          console.error('error in mapping events arr promises', err.message.slice(0,1000));
+          return [];
         });
-    }).catch(function(err){
-      console.error('error in mapping events arr promises', err.message.slice(0,1000));
-      return [];
+      });
+    }).then(function(finEventsArr){
+        console.log('got events from slice', finEventsArr.length);
     });
   })
   .then(function(finEventsArr){
-      console.log('got events', finEventsArr.length);
+      console.log('got events from all slices', finEventsArr.length);
       return finEventsArr;
   })
   .catch(function(err){

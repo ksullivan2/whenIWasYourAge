@@ -7,7 +7,7 @@ var monthNamesRE = /^(january|february|march|april|may|june|july|august|septembe
 var yearRE = /^\d{4}$/;
 var siteRE = /\.org\//;
 
-//returns yearEvents Arr with promises for yearEvents
+//returns yearEvents Arr with promises for yearEvents without scores
 function createYearEvents(url){
 	
 	return createCheerio(url)
@@ -61,34 +61,22 @@ function createYearEvents(url){
 					}		
 				});
 
-				//score is a promise for the score
-				//represents the avergage number of pages that link to relevant words in the event
-				var score = Promise.reduce(links, function(sumScores, link){
-					// console.log('reducing', link, sumScores)
-					return whatLinksHere(link)
-					.then(function(linkScore){
-						// console.log('linkscore', linkScore)
-						return sumScores + linkScore;
-					}).then(function(sum){
-						// console.log('added scores to get', sum, 'for', text);
-						return sum/links.length;
-					});
-				}, 0)
-				.catch(function(err){
-					console.error('error in creating calculating score', err.message);
-					return 0;
-				});
-
-
-				//create promise for eventObject once all scores resolve
-				var promEventObj = score.then(function(score){
-					console.log('calculated score', score, text.slice(0,100));
-					return Promise.resolve({
+				var promEventObj = Promise.resolve({
 						text: text,
 						links: links,
-						score: score
+						// score: score
 					});
-				});
+				
+
+				//create promise for eventObject once all scores resolve
+				// var promEventObj = score.then(function(score){
+				// 	console.log('calculated score', score, text.slice(0,100));
+				// 	return Promise.resolve({
+				// 		text: text,
+				// 		links: links,
+				// 		score: score
+				// 	});
+				// });
 
 				//push each promEventObj to the returned array
 				//we don't resolve this before returning
@@ -101,9 +89,27 @@ function createYearEvents(url){
 	});	
 }
 
-
-
-
+//returns promise for score
+function calcScore(linksArr){	
+	// console.log('calulating score for', linksArr)
+	//score is a promise for the score
+	//represents the avergage number of pages that link to relevant words in the event
+	return Promise.reduce(linksArr, function(sumScores, link){
+		// console.log('reducing', link, sumScores)
+		return whatLinksHere(link)
+		.then(function(linkScore){
+			// console.log('linkscore', linkScore)
+			return sumScores + linkScore;
+		}).then(function(sum){
+			// console.log('added scores to get', sum);
+			return sum/linksArr.length;
+		});
+	}, 0)
+	.catch(function(err){
+		console.error('error in creating calculating score', err.message);
+		return 0;
+	});
+}
 
 
 function createCheerio(url, again){
@@ -183,6 +189,6 @@ function whatLinksHere(url){
 
 // }
 
-module.exports = createYearEvents;
+module.exports = {createYearEvents, calcScore};
 
 
