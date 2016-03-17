@@ -15,7 +15,8 @@ var Information = React.createClass({
 
     return (
       <div id='Information'>
-        Information
+        <h1>When I Was Your Age...</h1>
+        
         <Slider 
           selectedYear={this.props.selectedYear}
           birthYear={this.props.birthYear} 
@@ -25,6 +26,7 @@ var Information = React.createClass({
           name={this.props.name} 
           selectedYear={this.props.selectedYear} 
           age={age}/>
+        
       </div>
     )
   }

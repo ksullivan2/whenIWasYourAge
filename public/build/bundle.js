@@ -19943,7 +19943,11 @@
 	    return React.createElement(
 	      'div',
 	      { id: 'Information' },
-	      'Information',
+	      React.createElement(
+	        'h1',
+	        null,
+	        'When I Was Your Age...'
+	      ),
 	      React.createElement(Slider, {
 	        selectedYear: this.props.selectedYear,
 	        birthYear: this.props.birthYear,
@@ -20039,9 +20043,9 @@
 	  render: function render() {
 	    return React.createElement(
 	      "div",
-	      { id: "Name" },
+	      { id: "Sentence" },
 	      React.createElement(
-	        "p",
+	        "h2",
 	        null,
 	        "In ",
 	        this.props.selectedYear,
@@ -20049,7 +20053,7 @@
 	        this.props.name,
 	        " was ",
 	        this.props.age,
-	        "..."
+	        ":"
 	      )
 	    );
 	  }

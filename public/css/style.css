@@ -1,7 +1,15 @@
 
-body div div{
-  border: 1px solid black;
-  position: absolute;
+* {
+  font-family: sans-serif;
+  text-align: center;
+  align: middle;
+}
+
+
+
+
+body div div {
+
 }
 
 #App {
@@ -22,7 +30,6 @@ body div div{
   width: 100%;
   height: 70%;
   top: 30%;
-  border: 2px solid red;
   position: absolute;
   display: flex;
   flex-wrap: wrap;
@@ -33,69 +40,61 @@ body div div{
 #Information {
   width: 100%;
   height: 30%;
-  
 }
 
 #Slider {
   width: 90%;
-  height: 50%;
-  top: 30%;
-  left: 5%;
+  height: 30%;
   display: inline-flex;
+  position: relative;
+  margin: auto;
+  flex-wrap: nowrap;
+  justify-content: center;
 }
 
-#BirthYear {
-  width: 4em;
-  height: 50%;
-  top: 25%;
-  left: 1%;
+
+.yearDisplay {
+  flex-grow: 1;
   text-align: center;
-  
+  display: inline-block;
+}
+
+.yearDisplay h2{
+
 }
 
 #yearSliderDIV{
-  width: 80%;
-  top:40%;
-  left: 10%;
+  flex-grow: 10;
+  display: inline-block;
+
 }
 
-#Age{
-  left:50%;
-}
-
-#selectedYear{
-  left: 40%;
-  bottom: 0%
-}
 
 #yearSlider{
-  width: 100%;
+  width: 100%;  
+  height: 100%;
 }
 
-#EndYear {
-  width: 4em;
-  height: 50%;
-  top: 25%;
-  right: 1%;
-  text-align: center;
-
-}
 
 #Change {
   width: 5%;
   height: 15%;
-  top: 2%;
+  top: 0%;
   right: 2%;
   z-index: 100;
+  position: absolute;
+  display: inline-flex;
+  text-align: right;
 }
 
-#Name {
-  width: 30%;
+#Sentence {
+  width: 50%;
   height: 20%;
-  top: 1%;
-  left: 35%;
-  text-align: center;
-
+  display: block;
+  margin: auto;
 }
 
+#Sentence h2 {
+  margin: 1.5%;
+}
 
