@@ -23,9 +23,9 @@ var FactList = React.createClass({
     } else listItems = [<Fact eventText='Sorry, no events for this year :(' key='1'/>]
       return (
         <div id="FactList" >
-        
+          <ul>
           {listItems}
-          
+          </ul>
         </div>
       )
     } else{

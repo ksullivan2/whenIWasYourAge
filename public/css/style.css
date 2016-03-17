@@ -1,15 +1,20 @@
 
 * {
-  font-family: sans-serif;
+  font-family: Montserrat, sans-serif;
   text-align: center;
   align: middle;
+
 }
 
 
-
+ul {
+  padding: 0;
+  margin: 0;
+  margin: auto;
+}
 
 body div div {
-
+  
 }
 
 #App {
@@ -19,10 +24,11 @@ body div div {
 }
 
 .Fact{
-  width: 45%;
-  height: 20%;
-  position: relative;
-  display: inline-block;
+  width: 80%;
+  margin: auto;
+  height: 10%;
+  display: block;
+  padding: 1%;
 
 }
 
@@ -33,6 +39,7 @@ body div div {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
+  background-color: #f3ffff;
 }
 
 
@@ -40,6 +47,7 @@ body div div {
 #Information {
   width: 100%;
   height: 30%;
+
 }
 
 #Slider {
@@ -77,10 +85,10 @@ body div div {
 
 
 #Change {
-  width: 5%;
+  width: 10%;
   height: 15%;
   top: 0%;
-  right: 2%;
+  right: 0;
   z-index: 100;
   position: absolute;
   display: inline-flex;

@@ -19788,7 +19788,11 @@
 	      return React.createElement(
 	        'div',
 	        { id: 'FactList' },
-	        listItems
+	        React.createElement(
+	          'ul',
+	          null,
+	          listItems
+	        )
 	      );
 	    } else {
 	      return React.createElement(
@@ -19817,7 +19821,7 @@
 
 	  render: function render() {
 	    return React.createElement(
-	      "div",
+	      "li",
 	      { className: "Fact" },
 	      this.props.eventText
 	    );
