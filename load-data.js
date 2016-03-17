@@ -59,7 +59,7 @@ function scrapeDataForRangeSerial(min, max){
   var yearsArr = Array.apply(null, Array(max-min+1)).map(function (_, i) {return i + min;});
   // console.log(yearsArr)
   return Promise.each(yearsArr, function(year){
-    // console.log(year)
+    console.log(year)
     // return Promise.resolve(year)
     return scrapeDataForYear(year);
   })

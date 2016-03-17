@@ -54,7 +54,7 @@ function createYearEvents(url){
 						var href = $(this).attr("href");
 
 						//filter out non-wikipedia links and add the prefix to the valid ones
-						if(href.search(siteRE) === -1) {
+						if(href.search(siteRE) === -1 && href.slice(0,5)==='/wiki') {
 							href = 'https://en.wikipedia.org' + href;
 							links.push(href);
 						} 
@@ -121,7 +121,7 @@ function createCheerio(url, again){
 		return $;
 	}).catch(function(err){
 		console.error('error in creating cheerio obj for', url, 'again?', again, err.message.slice(0,1000));
-		if(!again) return createCheerio(url, true);
+		// if(!again) return createCheerio(url, true);
 	});
 }
 
