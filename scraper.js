@@ -31,56 +31,59 @@ function createYearEvents(url){
 		
 		//for each event on the page, return a promise for the eventObject
 		yearEventsULs.each(function(){
-			var ulTitle = $(this).prev('h2').children('.mw-headline').attr('id')
 
 			//loop through each ul to find child li's (find will find nested??)
 			//within each LI, create an eventObject with text, links, and score
 			$(this).find('li').each(function (){
-				//the full text of the event
-				var text = $(this).text();
-				if (ulTitle === 'Births') text = 'Birth: ' + text;
-				else if (ulTitle === 'Deaths') text = 'Death: ' + text;
+				//if the li is not a nested list of events
+				// console.log($(this).text(), !$(this).children('li').length>0, $(this).children('li').text())
+				if(!$(this).children('li').length>0){
+					// console.log('not nested')
+					//the full text of the event
+					var text = $(this).text();
+					// console.log('parent h2', $(this).parent('ul').prevAll('h2').text())
+					var ulTitle = $(this).parent('ul').prevAll('h2').children('.mw-headline').attr('id')
+					// console.log('ul title', ulTitle, text)
+					//if the li is nested (won't have a date) add a date and get ulTitle from parent
+					if(!ulTitle) {
+						// console.log('no ul title for', text)
+						var date = $(this).parent('ul').parent('li').children('a').attr('title');
+						ulTitle = $(this).parent('ul').parent('li').parent('ul').prevAll('h2').children('.mw-headline').attr('id');
+						if(date) text = date.concat(' ', text);
+						// console.log('nested', ulTitle, text)
+					} 
 
-				//grab an array of all the links within the li
-				var links = [];
+					//if the event is not a birth do stuff and add it
+					if (ulTitle !== 'Births') {
+						if (ulTitle === 'Deaths') text = 'Death: ' + text;
 
-				$(this).children("a").each(function(){
-					var linkTitle = $(this).attr("title")
+						//grab an array of all the links within the li
+						var links = [];
 
-					//filter out dates/years
-					if (linkTitle && linkTitle.search(monthNamesRE) === -1 && linkTitle.search(yearRE) === -1){
-						
-					// console.log('found title', linkTitle)
-						var href = $(this).attr("href");
+						$(this).children("a").each(function(){
+							var linkTitle = $(this).attr("title")
 
-						//filter out non-wikipedia links and add the prefix to the valid ones
-						if(href.search(siteRE) === -1 && href.slice(0,5)==='/wiki') {
-							href = 'https://en.wikipedia.org' + href;
-							links.push(href);
-						} 
-					}		
-				});
+							//filter out dates/years
+							if (linkTitle && linkTitle.search(monthNamesRE) === -1 && linkTitle.search(yearRE) === -1){
+								
+							// console.log('found title', linkTitle)
+								var href = $(this).attr("href");
 
-				var promEventObj = Promise.resolve({
-						text: text,
-						links: links,
-						// score: score
-					});
-				
-
-				//create promise for eventObject once all scores resolve
-				// var promEventObj = score.then(function(score){
-				// 	console.log('calculated score', score, text.slice(0,100));
-				// 	return Promise.resolve({
-				// 		text: text,
-				// 		links: links,
-				// 		score: score
-				// 	});
-				// });
-
-				//push each promEventObj to the returned array
-				//we don't resolve this before returning
-				yearEvents.push(promEventObj);
+								//filter out non-wikipedia links and add the prefix to the valid ones
+								if(href.search(siteRE) === -1 && href.slice(0,5)==='/wiki') {
+									href = 'https://en.wikipedia.org' + href;
+									links.push(href);
+								} 
+							}		
+						});
+						//if it's a birth, don't push it in
+						yearEvents.push(Promise.resolve({
+							text: text,
+							links: links,
+							// score: score
+						}));
+					}
+				}
 			});
 
 		});

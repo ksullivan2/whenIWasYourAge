@@ -49,6 +49,7 @@ function scrapeDataForYear(year){
       });
     }).then(function(finEventsArr){
         console.log('got events from slice', finEventsArr.length);
+        return finEventsArr;
     });
   })
   .then(function(finEventsArr){
@@ -88,6 +89,7 @@ function scrapeDataForRangeSerial(min, max){
   })
   .then(function(returnArr){
     console.log('wrote events for', returnArr.length, 'years');
+    return returnArr;
   })
   .catch(function(err){
     console.error('error in scaping for range', err.message.slice(0,1000));

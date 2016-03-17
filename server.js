@@ -9,7 +9,9 @@ var scrapeYear = require('./scraper');
 var addDataForYear = require('./load-data').scrapeDataForYear;
 var addDataForRange = require('./load-data').scrapeDataForRange;
 var Promise = require('bluebird');
-var PORT = process.env.PORT || 5000;
+// var PORT = process.env.PORT || 5000;
+var PORT = 3000
+
 var sequelize = require('sequelize');
 
 app.use(express.static(__dirname+"/public/"));
