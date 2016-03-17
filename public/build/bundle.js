@@ -19765,7 +19765,8 @@
 
 	var React = __webpack_require__(1);
 	var Fact = __webpack_require__(160);
-	var EventsList = __webpack_require__(161);
+	// var EventsList = require('./EventsList');
+	var Loader = __webpack_require__(161);
 
 	var FactList = React.createClass({
 	  displayName: 'FactList',
@@ -19778,9 +19779,12 @@
 
 	    if (this.props.events) {
 
-	      var listItems = this.props.events[this.props.selectedYear].map(function (event) {
-	        return React.createElement(Fact, { eventText: event.text });
-	      });
+	      if (this.props.events[this.props.selectedYear]) {
+
+	        var listItems = this.props.events[this.props.selectedYear].map(function (event, idx) {
+	          return React.createElement(Fact, { eventText: event.text, key: idx });
+	        });
+	      } else listItems = [React.createElement(Fact, { eventText: 'Sorry, no events for this year :(', key: '1' })];
 	      return React.createElement(
 	        'div',
 	        { id: 'FactList' },
@@ -19790,7 +19794,9 @@
 	      return React.createElement(
 	        'div',
 	        { id: 'FactList' },
-	        ' LOADING '
+	        ' ',
+	        React.createElement(Loader, null),
+	        ' '
 	      );
 	    }
 	  }
@@ -19822,21 +19828,25 @@
 
 /***/ },
 /* 161 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var EventsList = {};
+	var React = __webpack_require__(1);
 
-	for (var i = 1900; i <= 2016; i++) {
-		var year = i.toString();
-		EventsList[year] = ["Event 1 in " + year, "Event 2 in " + year, "Event 3 in " + year];
-		if (year % 4 === 0) {
-			EventsList[year].push("it was a leap year");
-		}
-	}
+	var Loader = React.createClass({
+	  displayName: "Loader",
 
-	module.exports = EventsList;
+	  render: function render() {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement("img", { src: "http://cdn.themetapicture.com/pic/images/2014/08/25/funny-gif-cat-washing-machine.gif" })
+	    );
+	  }
+	});
+
+	module.exports = Loader;
 
 /***/ },
 /* 162 */
