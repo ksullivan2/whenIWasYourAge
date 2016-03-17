@@ -70,10 +70,10 @@
 
 	  getInitialState: function getInitialState() {
 	    return {
-	      name: "Mocha",
-	      birthYear: "1900",
-	      endYear: "1902",
-	      selectedYear: "1901",
+	      name: "Obama",
+	      birthYear: "1961",
+	      endYear: "2016",
+	      selectedYear: "1983",
 	      events: null
 	    };
 	  },
