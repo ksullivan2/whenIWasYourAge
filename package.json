@@ -44,10 +44,5 @@
     "sequelize": "^3.19.3",
     "webpack": "^1.12.2",
     "webpack-dev-server": "^1.12.1"
-  },
-  "bluebird": "^3.3.4",
-  "cheerio": "^0.20.0",
-  "pg": "^4.5.1",
-  "request-promise": "^2.0.1",
-  "sequelize": "^3.19.3"
+  }
 }

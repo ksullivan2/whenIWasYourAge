@@ -29,8 +29,7 @@ var App = React.createClass({
   },
 
   componentDidMount: function(){
-    this.getEventsForTimeline(this.state.birthYear, this.state.endYear)
-
+    this.getEventsForTimeline(this.state.birthYear, this.state.endYear);
   },
 
   getEventsForTimeline: function(birthYear, endYear){
@@ -48,14 +47,51 @@ var App = React.createClass({
     var eventsList = {};
     data.forEach(function(event){
       if (eventsList[event.year]){
-        eventsList[event.year].push(event)
+        eventsList[event.year].push(event);
       } else {
-        eventsList[event.year] = [event]
+        eventsList[event.year] = [event];
       }
-    })
+    });
 
-    this.setState({events: eventsList})
-  
+    this.setState({events: eventsList});
+  },
+
+  getMoreEvents: function(year){
+    var self = this;
+    var url = "/api/year/"+year;
+
+    $.ajax({
+      url: url,
+      success: self.setSomeAddlEvents,
+      error: function(err){console.log(err);}
+    });
+  },
+
+  //sets all data to events year
+  setAddlEvents: function(data){
+    var year = data[0].year;
+    var newEvents = Object.assign({}, this.state.events);
+    newEvents[year] = data;
+    this.setState({events: newEvents});
+  },
+
+  //sets 20 random data events to year
+  setSomeAddlEvents: function(data){
+    if(data.length === 0) return;
+    var year = data[0].year;
+    var newEvents = Object.assign({}, this.state.events);
+    var randIndexes = new Set();
+    var nextIdx;
+    while (randIndexes.size<20) {
+      nextIdx = randInRange(data.length);
+      if(!randIndexes.has(nextIdx)) randIndexes.add(nextIdx);
+    }
+    var randEvents = [];
+    randIndexes.forEach(function(idx){
+      randEvents.push(data[idx]);
+    });
+    newEvents[year] = randEvents;
+    this.setState({events: newEvents});
   },
 
   //changes slider selected year
@@ -69,9 +105,6 @@ var App = React.createClass({
   //fires when form is submitted
   changeInfo: function(name, birthYear,endYear){
     var defaultSelectedYear = Math.floor((endYear - birthYear)/2)+ parseInt(birthYear);
-    console.log(defaultSelectedYear, birthYear, endYear)
-    // this.changeYear(defaultSelectedYear);
-
     this.getEventsForTimeline(birthYear,endYear);
 
     this.setState({
@@ -97,11 +130,17 @@ var App = React.createClass({
         <FactList 
           selectedYear={this.state.selectedYear}
           events={this.state.events} 
+          getMoreEvents={this.getMoreEvents}
           />
       </div>
     )
   }
 });
+
+//returns a random number between 0 and max(exclusive)
+function randInRange(max){
+  return Math.floor(Math.random()*max);
+}
 
 module.exports = App;
 

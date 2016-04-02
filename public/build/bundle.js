@@ -108,6 +108,47 @@
 	    this.setState({ events: eventsList });
 	  },
 
+	  getMoreEvents: function getMoreEvents(year) {
+	    var self = this;
+	    var url = "/api/year/" + year;
+
+	    $.ajax({
+	      url: url,
+	      success: self.setSomeAddlEvents,
+	      error: function error(err) {
+	        console.log(err);
+	      }
+	    });
+	  },
+
+	  //sets all data to events year
+	  setAddlEvents: function setAddlEvents(data) {
+	    var year = data[0].year;
+	    var newEvents = Object.assign({}, this.state.events);
+	    newEvents[year] = data;
+	    this.setState({ events: newEvents });
+	  },
+
+	  //sets 20 random data events to year
+	  setSomeAddlEvents: function setSomeAddlEvents(data) {
+	    if (data.length === 0) return;
+	    var year = data[0].year;
+	    var newEvents = Object.assign({}, this.state.events);
+	    var randIndexes = new Set();
+	    var nextIdx;
+	    while (randIndexes.size < 21) {
+	      nextIdx = randInRange(data.length);
+	      if (!randIndexes.has(nextIdx)) randIndexes.add(nextIdx);
+	    }
+	    console.log(randIndexes);
+	    var randEvents = [];
+	    randIndexes.forEach(function (idx) {
+	      randEvents.push(data[idx]);
+	    });
+	    newEvents[year] = randEvents;
+	    this.setState({ events: newEvents });
+	  },
+
 	  //changes slider selected year
 	  //fires when slider is moved
 	  changeYear: function changeYear(year) {
@@ -146,11 +187,17 @@
 	        changeYear: this.changeYear }),
 	      React.createElement(FactList, {
 	        selectedYear: this.state.selectedYear,
-	        events: this.state.events
+	        events: this.state.events,
+	        getMoreEvents: this.getMoreEvents
 	      })
 	    );
 	  }
 	});
+
+	//returns a random number between 0 and max(exclusive)
+	function randInRange(max) {
+	  return Math.floor(Math.random() * max);
+	}
 
 	module.exports = App;
 
@@ -19771,9 +19818,10 @@
 	var FactList = React.createClass({
 	  displayName: 'FactList',
 
-
+	  handleMoreEvents: function handleMoreEvents() {
+	    this.props.getMoreEvents(this.props.selectedYear);
+	  },
 	  render: function render() {
-	    console.log("inside factlist", this.props.events);
 
 	    var year = this.props.selectedYear;
 
@@ -19792,6 +19840,15 @@
 	          'ul',
 	          null,
 	          listItems
+	        ),
+	        React.createElement(
+	          'div',
+	          { id: 'MoreEvents', onClick: this.handleMoreEvents },
+	          React.createElement(
+	            'span',
+	            null,
+	            'See more Events'
+	          )
 	        )
 	      );
 	    } else {

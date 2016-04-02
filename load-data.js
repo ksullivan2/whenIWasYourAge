@@ -29,12 +29,17 @@ function scrapeDataForYear(year){
           console.log('found', eventsArr.length, 'events');
         return Promise.map(eventsArr, function(eventObj){
           return eventObj.score.then(function(score){
+            if(score>0){
               return EventModel.create({
                 text: eventObj.text,
                 year: parseInt(year, 10),
                 score: score,
                 links: eventObj.links.join(' ')
-              });       
+              }); 
+            } else {
+              // console.log('not enought score', eventObj.text)
+              return Promise.resolve(['didn\'t create ' + eventObj.text]);
+            }   
           });
         }).catch(function(err){
           console.error('error in mapping events arr promises', err.message.slice(0,1000));

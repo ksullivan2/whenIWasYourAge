@@ -3,7 +3,7 @@ var React = require('react');
 
 var Change = React.createClass({
     getInitialState: function(){
-    	return {name: '', birthYear:'', endYear:''}
+    	return {name: '', birthYear:'', endYear:''};
     },
 
     handleNameChange: function(e){
@@ -22,7 +22,7 @@ var Change = React.createClass({
     	e.preventDefault();
     	var endYear = 2016;
     	if (this.state.endYear){
-    		var endYear = this.state.endYear
+    		var endYear = this.state.endYear;
     	} 
     	this.props.changeInfo(this.state.name, this.state.birthYear, endYear);
     	this.setState({

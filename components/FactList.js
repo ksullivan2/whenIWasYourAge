@@ -6,9 +6,10 @@ var Loader = require('./Loading');
 
 
 var FactList = React.createClass({
-
+  handleMoreEvents: function(){
+    this.props.getMoreEvents(this.props.selectedYear);
+  },
   render: function () {
-    console.log("inside factlist", this.props.events)
 
     var year = this.props.selectedYear;  
     
@@ -26,6 +27,9 @@ var FactList = React.createClass({
           <ul>
           {listItems}
           </ul>
+          <div id="MoreEvents" onClick={this.handleMoreEvents}>
+            <span>See more Events</span>
+          </div>
         </div>
       )
     } else{

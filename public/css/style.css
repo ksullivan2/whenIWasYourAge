@@ -2,6 +2,7 @@
 * {
   text-align: center;
   align: middle;
+  font-family:  Montserrat, sans-serif;
 
 }
 
@@ -22,6 +23,7 @@ ul {
   padding: 0;
   margin: 0;
   margin: auto;
+  width: 100%;
 }
 
 body div div {
@@ -37,28 +39,30 @@ body div div {
 .Fact{
   width: 80%;
   margin: auto;
-  height: 10%;
+  /*height: 10%;*/
   display: block;
-  padding: 1%;
+  padding: 10pt;
   font-family: Montserrat, sans-serif;
+  clear: both;
 
 }
 
 #FactList {
   width: 100%;
-  height: 70%;
-  top: 30%;
-  position: absolute;
+  /*height: 70%;*/
+  /*top: 30%;*/
+  /*position: absolute;*/
   display: flex;
   flex-wrap: wrap;
   background-color: #00FDC8;
+  border-radius: 10pt;
+  box-shadow: 0 0 7pt grey;
 }
-
-
 
 #Information {
   width: 100%;
-  height: 30%;
+  /*height: 30%;*/
+  padding-bottom: 10pt;
 
 }
 
@@ -102,11 +106,47 @@ body div div {
   width: 10%;
   height: 15%;
   top: 0%;
-  right: 0;
+  right: 7pt;
   z-index: 100;
   position: absolute;
   display: inline-flex;
   text-align: right;
+}
+
+input[type=submit] {
+    padding:3pt 10pt; 
+    background: #00FDC8;
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    box-shadow: 0 0 7pt grey;
+}
+
+input[type=text] {
+    padding:1pt 1pt; 
+    border:1pt solid #00FDC8;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    box-shadow: 0 0 7pt grey;
+    margin-bottom: 1pt;
+}
+
+
+#MoreEvents {
+  background-color: white;
+  margin: 10pt auto;
+  width: 60pt;
+  border-radius: 10pt;
+  box-shadow: 0 0 7pt grey;
+  cursor:pointer;
+  padding: 5pt;
+}
+#MoreEvents:hover span{
+  display: none
+}
+#MoreEvents:hover:before{
+  content: "See 20 random events from this year";
 }
 
 #Sentence {
@@ -119,9 +159,6 @@ body div div {
 #Sentence h2{
   padding: 0;
 }
-
-
-
 
 /*COPIED SLIDER STYLING BELOW*/
 input[type=range] {

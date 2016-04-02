@@ -1,4 +1,4 @@
-var DATABASE = process.env.DATABASE || 'wheniwasyourage';
+var DATABASE = process.env.DATABASE || 'yearevents';
 var USERNAME = process.env.DB_USERNAME || 'kaleysullivan';
 var Sequelize = require('sequelize');
 
