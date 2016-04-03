@@ -53,8 +53,6 @@
 	var Information = __webpack_require__(163);
 	var $ = __webpack_require__(167);
 
-	var bcRE = /bc/i;
-
 	/*
 	base structure for this.state
 	{
@@ -112,7 +110,7 @@
 
 	  getMoreEvents: function getMoreEvents(year) {
 	    var self = this;
-	    var url = "/api/year/" + year;
+	    var url = "/api/year/" + year + '?limit=20';
 
 	    $.ajax({
 	      url: url,

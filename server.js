@@ -25,9 +25,11 @@ app.get('/', function(req, res){
 //gets events from a year
 //query strings will be in the format: ?limit=__
 app.get('/api/year/:year', function(req, res){
-  var limit = req.query.num || 50;
+  var limit = req.query.limit || '50';
+  console.log(limit)
   var year = parseYear(req.params.year);
-  return seq.query("(select year, score, text from event where year = '" + year + "' order by random() " + limit + ");", {type: sequelize.QueryTypes.SELECT})
+  console.log(year)
+  return seq.query("(select year, score, text from event where year = '" + year + "' order by random() limit " + limit + ");", {type: sequelize.QueryTypes.SELECT})
     .then(function(events){
       return res.send(events);
     });

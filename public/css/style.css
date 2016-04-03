@@ -36,7 +36,7 @@ body div div {
 }
 
 .Fact{
-  width: 80%;
+  width: 75%;
   margin: auto;
   /*height: 10%;*/
   display: block;
@@ -106,8 +106,7 @@ body div div {
 
 
 #Change {
-  width: 10%;
-  height: 15%;
+  width: 100pt;
   top: 0%;
   right: 7pt;
   z-index: 100;
@@ -142,11 +141,14 @@ input[type=text] {
   background-color: white;
   margin: 10pt auto;
   width: 60pt;
-
   border-radius: 10pt;
   box-shadow: 0 0 7pt gray;
   cursor:pointer;
   padding: 5pt;
+  position:fixed;
+  bottom: 0;
+  right: 10pt;
+  max-width: 10%
 }
 #MoreEvents:hover span{
   display: none

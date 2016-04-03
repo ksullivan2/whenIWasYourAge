@@ -5,9 +5,6 @@ var Change = require('./Change.js');
 var Information = require('./Information');
 var $ = require('jquery');
 
-var bcRE = /bc/i;
-
-
 /*
 base structure for this.state
 {
@@ -61,7 +58,7 @@ var App = React.createClass({
 
   getMoreEvents: function(year){
     var self = this;
-    var url = "/api/year/"+year;
+    var url = "/api/year/" + year + '?limit=20';
 
     $.ajax({
       url: url,
