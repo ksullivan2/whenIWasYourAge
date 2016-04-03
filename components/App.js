@@ -5,6 +5,9 @@ var Change = require('./Change.js');
 var Information = require('./Information');
 var $ = require('jquery');
 
+var bcRE = /bc/i;
+
+
 /*
 base structure for this.state
 {

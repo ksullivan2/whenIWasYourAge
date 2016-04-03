@@ -1,5 +1,7 @@
 var React = require('react');
 
+var bcRE = /bc/i;
+
 
 var Change = React.createClass({
     getInitialState: function(){
@@ -20,11 +22,13 @@ var Change = React.createClass({
 
     handleSubmit:function(e){
     	e.preventDefault();
+        var birthYear = parseYear(this.state.birthYear);
     	var endYear = 2016;
     	if (this.state.endYear){
-    		var endYear = this.state.endYear;
+    		var endYear = parseYear(this.state.endYear);
     	} 
-    	this.props.changeInfo(this.state.name, this.state.birthYear, endYear);
+        if (endYear<=birthYear) endYear = birthYear+1;
+    	this.props.changeInfo(this.state.name, birthYear, endYear);
     	this.setState({
     		name: '', birthYear:'', endYear:''
     	})
@@ -58,6 +62,16 @@ var Change = React.createClass({
     )
   }
 });
+
+function parseYear(yearStr){
+  var bc = yearStr.search(bcRE);
+  var year;
+  if(bc>-1){
+    year = 0 - parseInt(yearStr, 10);
+  } else year = Number(yearStr);
+  if(isNaN(year)) year = 1900;
+  return year;
+}
 
 module.exports = Change;
 

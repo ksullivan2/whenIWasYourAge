@@ -14,6 +14,8 @@ var PORT = process.env.PORT || 5000;
 
 var sequelize = require('sequelize');
 
+var bcRE = /bc/i;
+
 app.use(express.static(__dirname+"/public/"));
 
 app.get('/', function(req, res){
@@ -21,15 +23,14 @@ app.get('/', function(req, res){
 });
 
 //gets events from a year
+//query strings will be in the format: ?limit=__
 app.get('/api/year/:year', function(req, res){
-  return EventModel.findAll({
-    attributes: ['text', 'score', 'year'],
-    where: {
-      year: parseInt(req.params.year)
-    }
-  }).then(function(events){
-    return res.send(events);
-  });
+  var limit = req.query.num || 50;
+  var year = parseYear(req.params.year);
+  return seq.query("(select year, score, text from event where year = '" + year + "' order by random() " + limit + ");", {type: sequelize.QueryTypes.SELECT})
+    .then(function(events){
+      return res.send(events);
+    });
 });
 
 //query strings will be in the format: ?min=__&max=__&perYear=__
@@ -49,20 +50,24 @@ app.get('/api/range', function(req, res){
 
 //scrapes for and writes to db events for one year
 app.get('/api/post/year/:year', function(req, res){
-  res.send('making request to scrape events in ' + req.params.year);
-  return addDataForYear(req.params.year);
+  year = parseYear(req.params.year);
+  res.send('making request to scrape events in ' + year);
+  return addDataForYear(year);
 });
 
 //scrapes for and writes to db events for a range of years
 //not quite restfull but easilly understandable and replicable
 app.get('/api/post/range/:min/:max', function(req, res){
-  res.send('making request for ' + req.params.min + '-' + req.params.max);
-  return addDataForRange(parseInt(req.params.min, 10), parseInt(req.params.max, 10));
+  var min = parseYear(req.params.min);
+  var max = parseYear(req.params.max);
+  res.send('making request for ' + min + '-' + max);
+  return addDataForRange(parseInt(min, 10), parseInt(max, 10));
 });
 
 app.post('/api/year/:year', function(req, res){
-  res.send('making request for ' + req.params.year);
-  return addDataForYear(parseInt(req.params.year));
+  var year = parseYear(req.params.year);
+  res.send('making request for ' + year);
+  return addDataForYear(parseInt(year));
 });
 
 //connect to db and start server
@@ -82,10 +87,20 @@ module.exports = {
 function buildRanngeQuery(min, max, limit){
   var queryString = '';
   for(var year = min; year<=max; year++){
-    queryString += "(select year, score, text from event where year = '"+year+"' order by score desc limit "+limit+") ";
+    queryString += "(select year, score, text from event where year = '" + year + "' order by score desc limit " + limit + ") ";
     if (year<max) queryString += "union all ";
   }
   return queryString;
+}
+
+function parseYear(yearStr){
+  var bc = yearStr.search(bcRE);
+  var year;
+  if(bc>-1){
+    year = 0 - parseInt(yearStr, 10);
+  } else year = Number(yearStr);
+  if(isNaN(year)) year = 1900;
+  return year.toString();
 }
 
 
