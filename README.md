@@ -47,7 +47,8 @@ __In-Browser Database API__
     
 __Using the App__
   * Once there's data in the database, you can use the form in the top-right corner to change the timeline.
-  * Move the slider to move through the person's timeline.
+  * Move the slider to move through the person's timeline and see the top 5 events from that year.
+  * Use the "See More Events" button to randomize and see more events from that year.
   * Enjoy learning about the world through someone else's eyes!
 
 
