@@ -1,7 +1,7 @@
 # When I Was Your Age...
 ### *a.k.a. the Dad-est app ever*
 
-created by Kaley Sullivan and Chandra Galbiati
+created by Kaley Sullivan and [Chandra Galbiati](https://github.com/cgalbiati)
 
 
 __History:__
