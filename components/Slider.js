@@ -1,5 +1,5 @@
 var React = require('react');
-var YearDisplay = require('./YearDisplay');
+var YearDisplay = require('./YearDisp');
 
 
 var Slider = React.createClass({
