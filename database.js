@@ -1,9 +1,15 @@
-var DATABASE = process.env.DATABASE_URL || 'yearevents';
+var DATABASE = process.env.DB_NAME || 'wheniwasyourage';
 var USERNAME = process.env.DB_USERNAME || 'kaleysullivan';
+var PASSWORD = process.env.DB_PASSWORD || "";
 var Sequelize = require('sequelize');
 
-var seq = new Sequelize(DATABASE, USERNAME, "", {
-  host: 'localhost',
+// postgres://[username]:[password]@[host]:[port]/[databaseName]
+// postgres://ifudimhkmajrvj:0zRVFq2uknpRlLxxAMngohjLaC@ec2-54-83-59-203.compute-1.amazonaws.com:5432/d2u2h5u9avhsrs
+
+var seq = new Sequelize(DATABASE, USERNAME, PASSWORD, {
+  host: process.env.DB_HOST ||'localhost',
+  //COMMENT OUT PORT LINE if this doesn't work on local machine, it's not needed for local
+  port: process.env.DB_PORT || 5432,
   dialect: 'postgres',
   pool: {
     max: 5,
