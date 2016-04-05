@@ -17,9 +17,9 @@ function scrapeDataForYear(year){
   .then(function(eventsArrNoScores){
     var slicedArr = [];
     do { 
-      var sliceEnd = eventsArrNoScores.length<400 ? eventsArrNoScores.length : 400;
+      var sliceEnd = eventsArrNoScores.length<100 ? eventsArrNoScores.length : 100;
       slicedArr.push(eventsArrNoScores.splice(0, sliceEnd));
-    } while (eventsArrNoScores.length>400);
+    } while (eventsArrNoScores.length>100);
     return Promise.each(slicedArr, function(arrSlice){
       return Promise.map(arrSlice, function(eventObj){
           eventObj.score = calcScore(eventObj.links);
