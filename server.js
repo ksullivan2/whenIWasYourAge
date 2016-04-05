@@ -14,6 +14,7 @@ var PORT = process.env.PORT || 5000;
 
 var sequelize = require('sequelize');
 
+//makes BC years work
 var bcRE = /bc/i;
 
 app.use(express.static(__dirname+"/public/"));
