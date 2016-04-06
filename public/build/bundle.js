@@ -114,7 +114,7 @@
 
 	    $.ajax({
 	      url: url,
-	      success: self.setSomeAddlEvents,
+	      success: self.setAddlEvents,
 	      error: function error(err) {
 	        console.log(err);
 	      }
@@ -123,6 +123,8 @@
 
 	  //sets all data to events year
 	  setAddlEvents: function setAddlEvents(data) {
+	    console.log(data);
+	    if (data.length === 0) return;
 	    var year = data[0].year;
 	    var newEvents = Object.assign({}, this.state.events);
 	    newEvents[year] = data;
@@ -131,21 +133,23 @@
 
 	  //sets 20 random data events to year
 	  setSomeAddlEvents: function setSomeAddlEvents(data) {
+	    console.log('data', data);
 	    if (data.length === 0) return;
-	    var year = data[0].year;
-	    var newEvents = Object.assign({}, this.state.events);
-	    var randIndexes = new Set();
-	    var nextIdx;
-	    while (randIndexes.size < 20) {
-	      nextIdx = randInRange(data.length);
-	      if (!randIndexes.has(nextIdx)) randIndexes.add(nextIdx);
-	    }
-	    var randEvents = [];
-	    randIndexes.forEach(function (idx) {
-	      randEvents.push(data[idx]);
-	    });
-	    newEvents[year] = randEvents;
-	    this.setState({ events: newEvents });
+	    // var year = data[0].year;
+	    // var newEvents = Object.assign({}, this.state.events, data);
+	    // var randIndexes = new Set();
+	    // var nextIdx;
+	    // var max =
+	    // while (randIndexes.size<20) {
+	    //   nextIdx = randInRange(data.length);
+	    //   if(!randIndexes.has(nextIdx)) randIndexes.add(nextIdx);
+	    // }
+	    // var randEvents = [];
+	    // randIndexes.forEach(function(idx){
+	    //   randEvents.push(data[idx]);
+	    // });
+	    // newEvents[year] = randEvents;
+	    this.setState({ events: data });
 	  },
 
 	  //changes slider selected year

@@ -8,6 +8,7 @@ var EventModel = require('./database').EventModel;
 var scrapeYear = require('./scraper');
 var addDataForYear = require('./load-data').scrapeDataForYear;
 var addDataForRange = require('./load-data').scrapeDataForRange;
+var scrapeFuture = require('./scrape-future');
 var Promise = require('bluebird');
 var PORT = process.env.PORT || 5000;
 // var PORT = 3000
@@ -20,6 +21,7 @@ var bcRE = /bc/i;
 app.use(express.static(__dirname+"/public/"));
 
 app.get('/', function(req, res){
+  console.log('hi')
   res.sendFile(__dirname + '/index.html');
 });
 
@@ -32,6 +34,7 @@ app.get('/api/year/:year', function(req, res){
   console.log(year)
   return seq.query("(select year, score, text from event where year = '" + year + "' order by random() limit " + limit + ");", {type: sequelize.QueryTypes.SELECT})
     .then(function(events){
+      console.log('got events', events.length, events)
       return res.send(events);
     });
 });
@@ -41,7 +44,7 @@ app.get('/api/range', function(req, res){
   var min = parseInt(req.query.min);
   var max = parseInt(req.query.max);
   var perYear = req.query.perYear || 3;
-  var queryString = buildRanngeQuery(min, max, perYear);
+  var queryString = buildRangeQuery(min, max, perYear);
   //query database to get first perYear events from each year between min and max
    return seq.query(queryString, { type: sequelize.QueryTypes.SELECT})
   .then(function(events) {
@@ -50,6 +53,8 @@ app.get('/api/range', function(req, res){
     console.error('error getting events in range', err);
   });
 });
+
+//mock post reqs bc I was lazy and wanted to load through the browser
 
 //scrapes for and writes to db events for one year
 app.get('/api/post/year/:year', function(req, res){
@@ -65,6 +70,13 @@ app.get('/api/post/range/:min/:max', function(req, res){
   var max = parseYear(req.params.max);
   res.send('making request for ' + min + '-' + max);
   return addDataForRange(parseInt(min, 10), parseInt(max, 10));
+});
+
+//scrapes for and writes db events for future from scifi wikia
+app.get('/api/post/future', function(req, res){
+  console.log('scraping future')
+  res.send('scraping future');
+  return scrapeFuture();
 });
 
 app.post('/api/year/:year', function(req, res){
@@ -87,7 +99,7 @@ module.exports = {
   PORT: PORT
 };
 
-function buildRanngeQuery(min, max, limit){
+function buildRangeQuery(min, max, limit){
   var queryString = '';
   for(var year = min; year<=max; year++){
     queryString += "(select year, score, text from event where year = '" + year + "' order by score desc limit " + limit + ") ";
@@ -106,6 +118,7 @@ function parseYear(yearStr){
   return year.toString();
 }
 
+// load from csv: \copy event from ~/Documents/events.csv DELIMITER ',' CSV HEADER;
 
 //queries that work:
 // select

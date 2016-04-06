@@ -48,9 +48,9 @@ function createYearEvents(url){
 						// console.log('nested', ulTitle, text)
 					} 
 
-					//if the event is not a birth do stuff and add it
-					if (ulTitle !== 'Births') {
-						if (ulTitle === 'Deaths') text = 'Death: ' + text;
+					//if the event is not a birth or death do stuff and add it
+					if (ulTitle !== 'Births' && ulTitle !== 'Deaths') {
+						// if (ulTitle === 'Deaths') text = 'Death: ' + text;
 
 						//grab an array of all the links within the li
 						var links = [];
@@ -151,6 +151,6 @@ function whatLinksHere(url){
 	});
 }
 
-module.exports = {createYearEvents, calcScore};
+module.exports = {createYearEvents, calcScore, createCheerio};
 
 
