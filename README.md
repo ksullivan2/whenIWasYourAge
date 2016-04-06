@@ -8,13 +8,13 @@ __History:__
 The idea for this app came from my father, who wanted to build a model that would allow you to see what the world was like at various points in another person's timeline.  What music was MLK Jr. listening to when he was 15? What current events shaped John Lennon's young life? What sporting events did Andy Warhol watch as a child? Did Grandma *really* walk uphill to school both ways?
 
 __Notes:__
-  * Currently, only "world events" are represented in the app (other categories would be included in a 1.0). These "world events" were scraped from [Wikipedia's "Year" pages](https://en.wikipedia.org/wiki/List_of_years). Though Wikipedia does offer an API and full downloads of its content, we were interested in learning web-scraping, and Wikipedia offered a simple way to explore the techniques.
+  * Currently, only "world events" are represented in the app (other categories would be included in future versions). These "world events" were scraped from [Wikipedia's "Year" pages](https://en.wikipedia.org/wiki/List_of_years). Though Wikipedia does offer an API and full downloads of its content, we were interested in learning web-scraping, and Wikipedia offered a simple way to explore the techniques.
   * On the front end, requests are made to the database only when the dates of the timeline are changed through the form in the top-right corner, increasing the performance of the slider and the changing display.
 
   
 
 
-v 0.5 documentation
+v 1.0 documentation
 -------------------
 Events must be scraped into a local Postgres database in order for the app to function.
 
