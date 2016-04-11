@@ -47,12 +47,12 @@ function scrapeDataForYear(year){
         });
       });
     }).then(function(finEventsArr){
-        console.log('got events from slice', finEventsArr.length);
+        console.log('got events from slice');
         return finEventsArr;
     });
   })
   .then(function(finEventsArr){
-      console.log('got events from all slices', finEventsArr.length);
+      console.log('got events from all slices');
       return finEventsArr;
   })
   .catch(function(err){

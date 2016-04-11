@@ -5,12 +5,8 @@ var app = express();
 var http = require('http').Server(app);
 var seq = require('./database').seq;
 var EventModel = require('./database').EventModel;
-var scrapeYear = require('./scraper');
-var addDataForYear = require('./load-data').scrapeDataForYear;
-var addDataForRange = require('./load-data').scrapeDataForRange;
-var scrapeFuture = require('./scrape-future');
 var Promise = require('bluebird');
-var PORT = process.env.PORT || 5000;
+var PORT = process.env.PORT || 3000;
 // var PORT = 3000
 
 var sequelize = require('sequelize');
@@ -41,8 +37,8 @@ app.get('/api/year/:year', function(req, res){
 
 //query strings will be in the format: ?min=__&max=__&perYear=__
 app.get('/api/range', function(req, res){
-  var min = parseInt(req.query.min);
-  var max = parseInt(req.query.max);
+  var min = parseInt(req.query.min, 10);
+  var max = parseInt(req.query.max, 10);
   var perYear = req.query.perYear || 3;
   var queryString = buildRangeQuery(min, max, perYear);
   //query database to get first perYear events from each year between min and max
@@ -54,36 +50,10 @@ app.get('/api/range', function(req, res){
   });
 });
 
-//mock post reqs bc I was lazy and wanted to load through the browser
-
-//scrapes for and writes to db events for one year
-app.get('/api/post/year/:year', function(req, res){
-  year = parseYear(req.params.year);
-  res.send('making request to scrape events in ' + year);
-  return addDataForYear(year);
-});
-
-//scrapes for and writes to db events for a range of years
-//not quite restfull but easilly understandable and replicable
-app.get('/api/post/range/:min/:max', function(req, res){
-  var min = parseYear(req.params.min);
-  var max = parseYear(req.params.max);
-  res.send('making request for ' + min + '-' + max);
-  return addDataForRange(parseInt(min, 10), parseInt(max, 10));
-});
-
-//scrapes for and writes db events for future from scifi wikia
-app.get('/api/post/future', function(req, res){
-  console.log('scraping future')
-  res.send('scraping future');
-  return scrapeFuture();
-});
-
-app.post('/api/year/:year', function(req, res){
-  var year = parseYear(req.params.year);
-  res.send('making request for ' + year);
-  return addDataForYear(parseInt(year));
-});
+//post/mock-post routes 
+//un-comment to allow database-filling requests
+// var postRouter = require('./fill-db-routes');
+// app.use('/api/post', postRouter);
 
 //connect to db and start server
 //one of the seq.sync statements should always be commented out.  The first resets the db, and the second does not
